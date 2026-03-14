@@ -68,10 +68,14 @@ export async function getFeedbackLeaderboard(): Promise<FeedbackLeaderboardItem[
 // ---- Page View Analytics API ----
 
 export async function trackPageView(path: string) {
-  return apiFetch('/analytics/pageview', {
-    method: 'POST',
-    body: JSON.stringify({ path, timestamp: new Date().toISOString() }),
-  });
+  try {
+    return await apiFetch('/analytics/pageview', {
+      method: 'POST',
+      body: JSON.stringify({ path, timestamp: new Date().toISOString() }),
+    });
+  } catch {
+    // Analytics is non-critical — silently ignore failures
+  }
 }
 
 export interface PopularPage {

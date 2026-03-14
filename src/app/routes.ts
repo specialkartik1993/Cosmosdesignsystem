@@ -59,6 +59,7 @@ import { AIResponsePage } from './pages/ai/AIResponsePage';
 import { AICopilotPage } from './pages/ai/AICopilotPage';
 import { AIWidgetsPage } from './pages/ai/AIWidgetsPage';
 import { FigmaPlugin } from './pages/examples/FigmaPlugin';
+import { PluginGuide } from './pages/PluginGuide';
 import { NotFound } from './pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -78,7 +79,8 @@ export const router = createBrowserRouter([
       // Tokens
       { path: 'tokens', Component: Tokens },
       { path: 'theming', Component: Theming },
-      { path: 'figma', Component: FigmaIntegration },
+      // { path: 'figma', Component: FigmaIntegration }, // Coming soon
+      // { path: 'figma/plugin-guide', Component: PluginGuide }, // Coming soon
       { path: 'api', Component: ApiReference },
       // Atoms
       { path: 'components/button', Component: ButtonPage },

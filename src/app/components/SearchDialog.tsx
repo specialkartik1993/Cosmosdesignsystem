@@ -25,7 +25,8 @@ const searchItems: SearchItem[] = [
   // New pages
   { title: 'Changelog', path: '/changelog', category: 'Getting Started', icon: Tag, comingSoon: true },
   { title: 'Theming Guide', path: '/theming', category: 'Design Tokens', icon: Settings },
-  { title: 'Figma Integration', path: '/figma', category: 'Design Tokens', icon: Palette },
+  { title: 'Figma Integration', path: '/figma', category: 'Design Tokens', icon: Palette, comingSoon: true },
+  { title: 'Plugin Developer Guide', path: '/figma/plugin-guide', category: 'Design Tokens', icon: Palette, comingSoon: true },
   { title: 'API Reference', path: '/api', category: 'Design Tokens', icon: Package },
   // Foundations
   { title: 'Colors', path: '/foundations/colors', category: 'Foundations', icon: Palette },

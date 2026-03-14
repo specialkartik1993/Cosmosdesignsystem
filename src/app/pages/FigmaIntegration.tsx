@@ -11,7 +11,7 @@ import {
   Star, Heart, Users, ExternalLink, Play, Search,
   ChevronDown, Figma, MousePointerClick, Scan, Diff,
   LayoutGrid, Unplug, RotateCcw, ArrowUpRight, Info,
-  FolderOpen, FileText, Hash, Braces, Rocket, BadgeCheck, Trophy
+  FolderOpen, FileText, Hash, Braces, Rocket, BadgeCheck, Trophy, BookOpen
 } from 'lucide-react';
 import { CosmosLogoMark } from '../components/CosmosLogo';
 
@@ -1871,6 +1871,28 @@ export function FigmaIntegration() {
 
       {/* ====== HERO ====== */}
       <PluginHero />
+
+      {/* ====== DEVELOPER GUIDE CALLOUT ====== */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="mb-12"
+      >
+        <NavLink
+          to="/figma/plugin-guide"
+          className="group flex items-center gap-4 px-6 py-4 rounded-2xl border border-primary/15 bg-gradient-to-r from-primary/[0.04] via-card to-purple-500/[0.03] hover:border-primary/30 transition-all"
+        >
+          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <BookOpen className="w-5 h-5 text-primary" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-[14px]" style={{ fontWeight: 600 }}>Plugin Developer Guide</h3>
+            <p className="text-[12px] text-muted-foreground mt-0.5">Complete tutorial with all source code, architecture, build config, testing, and publishing checklist.</p>
+          </div>
+          <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+        </NavLink>
+      </motion.div>
 
       {/* ====== LIVE PLUGIN UI ====== */}
       <section className="mb-20">

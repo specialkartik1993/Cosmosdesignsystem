@@ -16,8 +16,8 @@ export function usePageAnalytics() {
     lastTracked.current = path;
 
     // Fire and forget — don't block UI
-    trackPageView(path).catch((err) => {
-      console.warn('Failed to track page view:', err);
+    trackPageView(path).catch(() => {
+      // Silently ignore analytics failures — non-critical
     });
   }, [location.pathname]);
 }

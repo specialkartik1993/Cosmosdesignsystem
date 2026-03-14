@@ -1097,7 +1097,7 @@ export function FigmaPlugin() {
         <div className="flex items-center gap-1.5 text-[12px] text-muted-foreground mb-6">
           <NavLink to="/" className="hover:text-foreground transition-colors">Cosmos</NavLink>
           <ChevronRight className="w-3 h-3" />
-          <NavLink to="/figma" className="hover:text-foreground transition-colors">Figma Integration</NavLink>
+          <NavLink to="/tokens" className="hover:text-foreground transition-colors">Design Tokens</NavLink>
           <ChevronRight className="w-3 h-3" />
           <span className="text-foreground" style={{ fontWeight: 500 }}>Plugin Simulator</span>
         </div>
@@ -1154,7 +1154,7 @@ export function FigmaPlugin() {
               >
                 {isExpanded ? <Minimize2 className="w-3.5 h-3.5 text-muted-foreground" /> : <Maximize2 className="w-3.5 h-3.5 text-muted-foreground" />}
               </button>
-              <NavLink to="/figma" className="w-6 h-6 rounded-md hover:bg-muted flex items-center justify-center transition-colors">
+              <NavLink to="/tokens" className="w-6 h-6 rounded-md hover:bg-muted flex items-center justify-center transition-colors">
                 <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
               </NavLink>
             </div>
@@ -1281,11 +1281,11 @@ export function FigmaPlugin() {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <NavLink
-            to="/figma"
+            to="/tokens"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground text-[13px] hover:opacity-90 transition-all shadow-lg shadow-primary/20"
             style={{ fontWeight: 600 }}
           >
-            <Figma className="w-4 h-4" /> Learn More
+            <Figma className="w-4 h-4" /> Design Tokens
             <ArrowRight className="w-3.5 h-3.5" />
           </NavLink>
           <a

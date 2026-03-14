@@ -40,7 +40,8 @@ const navSections = [
     items: [
       { label: 'Token Reference', path: '/tokens' },
       { label: 'Theming Guide', path: '/theming', badge: 'NEW' },
-      { label: 'Figma Integration', path: '/figma', badge: 'NEW' },
+      { label: 'Figma Integration', path: '/figma', comingSoon: true },
+      { label: 'Plugin Dev Guide', path: '/figma/plugin-guide', comingSoon: true },
       { label: 'API Reference', path: '/api', badge: 'NEW' },
     ]
   },
