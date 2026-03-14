@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { CosmicAIIcon } from './CosmicAIIcon';
 import { CosmosLogoMark, CosmosWordmark } from './CosmosLogo';
+import { usePageAnalytics } from '../lib/usePageAnalytics';
 
 const navSections = [
   {
@@ -304,6 +305,9 @@ export function Layout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
+
+  // Track page views
+  usePageAnalytics();
 
   // Scroll to top on route change
   useEffect(() => {

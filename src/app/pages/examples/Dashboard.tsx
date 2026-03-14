@@ -1,182 +1,747 @@
-import { motion } from 'motion/react';
+import { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { NavLink } from 'react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Progress } from '../../components/ui/progress';
-import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { TrendingUp, TrendingDown, Users, DollarSign, ShoppingCart, Eye, ArrowUpRight, MoreHorizontal, Bell, Search, Plus } from 'lucide-react';
+import {
+  AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid,
+  Tooltip, ResponsiveContainer, PieChart, Pie, Cell,
+} from 'recharts';
+import {
+  TrendingUp, TrendingDown, Eye, ThumbsUp, MessageSquare,
+  ArrowUpRight, RefreshCw, Activity, Layers, Zap,
+  CheckCircle2, AlertCircle, Clock, BarChart3,
+  ExternalLink, Sparkles,
+} from 'lucide-react';
+import type {
+  DashboardSummary, PopularPage, TrendPoint,
+  CategoryBreakdown, EngagementItem, FeedbackLeaderboardItem,
+} from '../../lib/supabase';
+import {
+  getDashboardSummary, getPopularPages, getViewTrends,
+  getCategoryBreakdown, getEngagementData, getFeedbackLeaderboard,
+  getSystemHealth,
+} from '../../lib/supabase';
 
-const revenueData = [
-  { name: 'Jan', revenue: 4000, orders: 240 },
-  { name: 'Feb', revenue: 3200, orders: 198 },
-  { name: 'Mar', revenue: 5800, orders: 340 },
-  { name: 'Apr', revenue: 4600, orders: 280 },
-  { name: 'May', revenue: 6200, orders: 390 },
-  { name: 'Jun', revenue: 5400, orders: 320 },
-  { name: 'Jul', revenue: 7100, orders: 430 },
-];
+/* ================================================================ */
+/*  Types                                                           */
+/* ================================================================ */
+type LoadState = 'idle' | 'loading' | 'loaded' | 'error';
 
-const stats = [
-  { label: 'Total Revenue', value: '$45,231.89', change: '+20.1%', up: true, icon: DollarSign },
-  { label: 'Active Users', value: '2,350', change: '+180', up: true, icon: Users },
-  { label: 'Orders', value: '12,234', change: '+19%', up: true, icon: ShoppingCart },
-  { label: 'Page Views', value: '573,210', change: '-3.2%', up: false, icon: Eye },
-];
+interface HealthData {
+  status: string;
+  latencyMs: number;
+  version: string;
+}
 
-const recentOrders = [
-  { id: '#3210', customer: 'Olivia Martin', email: 'olivia@email.com', amount: '$1,999', status: 'Completed' },
-  { id: '#3209', customer: 'Jackson Lee', email: 'jackson@email.com', amount: '$39', status: 'Processing' },
-  { id: '#3208', customer: 'Isabella Nguyen', email: 'isabella@email.com', amount: '$299', status: 'Completed' },
-  { id: '#3207', customer: 'William Kim', email: 'william@email.com', amount: '$99', status: 'Pending' },
-  { id: '#3206', customer: 'Sofia Davis', email: 'sofia@email.com', amount: '$2,499', status: 'Completed' },
-];
-
-const statusColors: Record<string, string> = {
-  Completed: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-  Processing: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-  Pending: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+/* ================================================================ */
+/*  Category colors                                                 */
+/* ================================================================ */
+const CATEGORY_COLORS: Record<string, string> = {
+  overview: '#6366f1',
+  foundations: '#8b5cf6',
+  general: '#a78bfa',
+  components: '#06b6d4',
+  enterprise: '#f59e0b',
+  interactions: '#ec4899',
+  ai: '#10b981',
+  examples: '#f97316',
 };
 
+const CATEGORY_BG: Record<string, string> = {
+  overview: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400',
+  foundations: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+  general: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
+  components: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
+  enterprise: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+  interactions: 'bg-pink-500/10 text-pink-600 dark:text-pink-400',
+  ai: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+  examples: 'bg-orange-500/10 text-orange-600 dark:text-orange-400',
+};
+
+/* ================================================================ */
+/*  Main Dashboard                                                  */
+/* ================================================================ */
 export function Dashboard() {
+  const [loadState, setLoadState] = useState<LoadState>('idle');
+  const [summary, setSummary] = useState<DashboardSummary | null>(null);
+  const [popular, setPopular] = useState<PopularPage[]>([]);
+  const [trends, setTrends] = useState<TrendPoint[]>([]);
+  const [categories, setCategories] = useState<CategoryBreakdown[]>([]);
+  const [engagement, setEngagement] = useState<EngagementItem[]>([]);
+  const [leaderboard, setLeaderboard] = useState<FeedbackLeaderboardItem[]>([]);
+  const [health, setHealth] = useState<HealthData | null>(null);
+  const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
+
+  const fetchAll = useCallback(async () => {
+    setLoadState('loading');
+    try {
+      const [s, p, t, c, e, l, h] = await Promise.all([
+        getDashboardSummary(),
+        getPopularPages(15),
+        getViewTrends(14),
+        getCategoryBreakdown(),
+        getEngagementData(),
+        getFeedbackLeaderboard(),
+        getSystemHealth().catch(() => null),
+      ]);
+      setSummary(s);
+      setPopular(p);
+      setTrends(t);
+      setCategories(c);
+      setEngagement(e);
+      setLeaderboard(l);
+      if (h) setHealth({ status: h.status, latencyMs: h.latencyMs, version: h.version });
+      setLastRefresh(new Date());
+      setLoadState('loaded');
+    } catch (err) {
+      console.error('Dashboard fetch error:', err);
+      setLoadState('error');
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAll();
+  }, [fetchAll]);
+
+  const statCards = summary
+    ? [
+        {
+          label: 'Total Page Views',
+          value: summary.totalViews.toLocaleString(),
+          change: summary.viewsChange,
+          icon: Eye,
+          color: 'text-indigo-500',
+          bg: 'bg-indigo-500/10',
+        },
+        {
+          label: 'Pages Discovered',
+          value: `${summary.uniquePagesVisited} / ${summary.totalPages}`,
+          change: null,
+          icon: Layers,
+          color: 'text-violet-500',
+          bg: 'bg-violet-500/10',
+          subtitle: `${Math.round((summary.uniquePagesVisited / summary.totalPages) * 100)}% coverage`,
+        },
+        {
+          label: 'Total Feedback',
+          value: summary.totalFeedback.toLocaleString(),
+          change: null,
+          icon: MessageSquare,
+          color: 'text-cyan-500',
+          bg: 'bg-cyan-500/10',
+          subtitle: `${summary.componentsWithFeedback} components rated`,
+        },
+        {
+          label: 'Satisfaction',
+          value: `${summary.avgSatisfaction}%`,
+          change: null,
+          icon: ThumbsUp,
+          color: 'text-emerald-500',
+          bg: 'bg-emerald-500/10',
+          subtitle: `${summary.feedbackUp} up / ${summary.feedbackDown} down`,
+        },
+      ]
+    : [];
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between mb-8"
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
       >
         <div>
-          <h1 className="text-[clamp(1.25rem,3vw,1.75rem)] tracking-tight" style={{ fontWeight: 700 }}>Dashboard</h1>
-          <p className="text-[14px] text-muted-foreground">Welcome back, Sarah. Here's what's happening.</p>
+          <div className="flex items-center gap-3 mb-1">
+            <h1 className="text-[clamp(1.25rem,3vw,1.75rem)] tracking-tight" style={{ fontWeight: 700 }}>
+              Analytics Dashboard
+            </h1>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" style={{ fontWeight: 600 }}>
+              <Activity className="w-3 h-3" />
+              Live
+            </span>
+          </div>
+          <p className="text-[14px] text-muted-foreground">
+            Real-time analytics from Supabase &mdash; tracking page views, feedback, and component engagement.
+          </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm"><Plus className="w-4 h-4 mr-1" /> Add Widget</Button>
-          <Button size="sm">Download Report</Button>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {health && (
+            <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-muted/50 border border-border text-[11px] text-muted-foreground">
+              <div className={`w-1.5 h-1.5 rounded-full ${health.status === 'ok' ? 'bg-emerald-500' : 'bg-amber-500'} animate-pulse`} />
+              <span>{health.latencyMs}ms</span>
+              <span className="text-muted-foreground/50">v{health.version}</span>
+            </div>
+          )}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={fetchAll}
+            disabled={loadState === 'loading'}
+            className="gap-1.5"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loadState === 'loading' ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
         </div>
       </motion.div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {stats.map((stat, i) => {
-          const Icon = stat.icon;
-          return (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.06 }}
-            >
-              <Card className="hover:shadow-md transition-shadow">
-                <CardContent className="pt-5">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[12px] text-muted-foreground">{stat.label}</span>
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Icon className="w-4 h-4 text-primary" />
+      {/* Last refresh */}
+      {lastRefresh && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="flex items-center gap-1.5 text-[11px] text-muted-foreground mb-6"
+        >
+          <Clock className="w-3 h-3" />
+          Last updated {lastRefresh.toLocaleTimeString()}
+        </motion.div>
+      )}
+
+      {/* Error state */}
+      <AnimatePresence>
+        {loadState === 'error' && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-6 p-4 rounded-xl border border-red-500/20 bg-red-500/5 flex items-center gap-3"
+          >
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-[13px]" style={{ fontWeight: 600 }}>Failed to load analytics</p>
+              <p className="text-[12px] text-muted-foreground">Check your connection and try refreshing.</p>
+            </div>
+            <Button variant="outline" size="sm" onClick={fetchAll}>Retry</Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Empty state — no data yet */}
+      {loadState === 'loaded' && summary && summary.totalViews === 0 && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center py-20"
+        >
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-violet-500/10 flex items-center justify-center mx-auto mb-4">
+            <BarChart3 className="w-7 h-7 text-indigo-500" />
+          </div>
+          <h2 className="text-[18px] mb-2" style={{ fontWeight: 700 }}>No analytics data yet</h2>
+          <p className="text-[14px] text-muted-foreground max-w-md mx-auto mb-6">
+            Start exploring the design system to generate page view data. Every page you visit is tracked in real time.
+          </p>
+          <NavLink to="/">
+            <Button className="gap-1.5">
+              <Sparkles className="w-4 h-4" />
+              Explore Cosmos
+            </Button>
+          </NavLink>
+        </motion.div>
+      )}
+
+      {/* Stats cards */}
+      {statCards.length > 0 && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          {statCards.map((stat, i) => {
+            const Icon = stat.icon;
+            return (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.06 }}
+              >
+                <Card className="hover:shadow-md transition-shadow h-full">
+                  <CardContent className="pt-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[12px] text-muted-foreground">{stat.label}</span>
+                      <div className={`w-8 h-8 rounded-lg ${stat.bg} flex items-center justify-center`}>
+                        <Icon className={`w-4 h-4 ${stat.color}`} />
+                      </div>
+                    </div>
+                    <p className="text-[1.5rem] mb-1" style={{ fontWeight: 700 }}>{stat.value}</p>
+                    {stat.change !== null && stat.change !== undefined ? (
+                      <div className="flex items-center gap-1">
+                        {stat.change >= 0 ? (
+                          <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
+                        ) : (
+                          <TrendingDown className="w-3.5 h-3.5 text-red-500" />
+                        )}
+                        <span
+                          className={`text-[12px] ${stat.change >= 0 ? 'text-emerald-500' : 'text-red-500'}`}
+                          style={{ fontWeight: 500 }}
+                        >
+                          {stat.change >= 0 ? '+' : ''}{stat.change}%
+                        </span>
+                        <span className="text-[12px] text-muted-foreground">vs yesterday</span>
+                      </div>
+                    ) : (
+                      'subtitle' in stat && stat.subtitle && (
+                        <p className="text-[12px] text-muted-foreground">{stat.subtitle}</p>
+                      )
+                    )}
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Charts row */}
+      {(trends.length > 0 || categories.length > 0) && (
+        <div className="grid lg:grid-cols-7 gap-4 mb-6">
+          {/* Trend chart */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="lg:col-span-4"
+          >
+            <Card className="h-full">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-[15px]">Page Views — Last 14 Days</CardTitle>
+                <span className="text-[11px] text-muted-foreground px-2 py-0.5 rounded-full bg-muted/50">
+                  {trends.reduce((sum, t) => sum + t.views, 0).toLocaleString()} total
+                </span>
+              </CardHeader>
+              <CardContent>
+                {trends.some(t => t.views > 0) ? (
+                  <ResponsiveContainer width="100%" height={240}>
+                    <AreaChart data={trends}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                      <XAxis dataKey="label" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" />
+                      <YAxis tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" allowDecimals={false} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: 'var(--card)',
+                          border: '1px solid var(--border)',
+                          borderRadius: '0.75rem',
+                          fontSize: '13px',
+                        }}
+                        formatter={(value: number) => [value.toLocaleString(), 'Views']}
+                      />
+                      <Area type="monotone" dataKey="views" stroke="#6366f1" fill="#6366f1" fillOpacity={0.1} strokeWidth={2} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="h-[240px] flex items-center justify-center text-muted-foreground text-[13px]">
+                    <div className="text-center">
+                      <BarChart3 className="w-8 h-8 mx-auto mb-2 opacity-30" />
+                      <p>Views will appear here as you browse</p>
                     </div>
                   </div>
-                  <p className="text-[1.5rem] mb-1" style={{ fontWeight: 700 }}>{stat.value}</p>
-                  <div className="flex items-center gap-1">
-                    {stat.up ? <TrendingUp className="w-3.5 h-3.5 text-emerald-500" /> : <TrendingDown className="w-3.5 h-3.5 text-red-500" />}
-                    <span className={`text-[12px] ${stat.up ? 'text-emerald-500' : 'text-red-500'}`} style={{ fontWeight: 500 }}>{stat.change}</span>
-                    <span className="text-[12px] text-muted-foreground">vs last month</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          );
-        })}
-      </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
 
-      {/* Charts */}
-      <div className="grid lg:grid-cols-7 gap-4 mb-6">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="lg:col-span-4">
-          <Card>
+          {/* Category breakdown */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="lg:col-span-3"
+          >
+            <Card className="h-full">
+              <CardHeader>
+                <CardTitle className="text-[15px]">Views by Category</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {categories.length > 0 ? (
+                  <div className="flex flex-col gap-3">
+                    <div className="flex justify-center">
+                      <ResponsiveContainer width="100%" height={120}>
+                        <PieChart>
+                          <Pie
+                            data={categories}
+                            dataKey="views"
+                            nameKey="label"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={50}
+                            innerRadius={30}
+                            strokeWidth={2}
+                            stroke="var(--card)"
+                          >
+                            {categories.map((entry) => (
+                              <Cell
+                                key={entry.category}
+                                fill={CATEGORY_COLORS[entry.category] || '#94a3b8'}
+                              />
+                            ))}
+                          </Pie>
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: 'var(--card)',
+                              border: '1px solid var(--border)',
+                              borderRadius: '0.75rem',
+                              fontSize: '12px',
+                            }}
+                            formatter={(value: number) => [value.toLocaleString(), 'views']}
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                    <div className="space-y-2">
+                      {categories.map((cat) => {
+                        const totalViews = categories.reduce((s, c) => s + c.views, 0);
+                        const pct = totalViews > 0 ? Math.round((cat.views / totalViews) * 100) : 0;
+                        return (
+                          <div key={cat.category} className="flex items-center gap-2">
+                            <div
+                              className="w-2.5 h-2.5 rounded-sm flex-shrink-0"
+                              style={{ backgroundColor: CATEGORY_COLORS[cat.category] || '#94a3b8' }}
+                            />
+                            <span className="text-[12px] flex-1" style={{ fontWeight: 500 }}>{cat.label}</span>
+                            <span className="text-[11px] text-muted-foreground">{cat.pages} pages</span>
+                            <span className="text-[12px] w-12 text-right" style={{ fontWeight: 600 }}>
+                              {pct}%
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-[200px] flex items-center justify-center text-muted-foreground text-[13px]">
+                    No category data yet
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Engagement + Popular pages row */}
+      <div className="grid lg:grid-cols-2 gap-4 mb-6">
+        {/* Popular pages */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <Card className="h-full">
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-[15px]">Revenue Overview</CardTitle>
-              <Button variant="ghost" size="icon"><MoreHorizontal className="w-4 h-4" /></Button>
+              <CardTitle className="text-[15px]">Most Visited Pages</CardTitle>
+              <span className="text-[11px] text-muted-foreground">{popular.length} tracked</span>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={240}>
-                <AreaChart data={revenueData}>
-                  <CartesianGrid key="grid" strokeDasharray="3 3" stroke="var(--border)" />
-                  <XAxis key="xaxis" dataKey="name" tick={{ fontSize: 12 }} stroke="var(--muted-foreground)" />
-                  <YAxis key="yaxis" tick={{ fontSize: 12 }} stroke="var(--muted-foreground)" />
-                  <Tooltip key="tooltip" contentStyle={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)', borderRadius: '0.75rem', fontSize: '13px' }} />
-                  <Area key="area-revenue" type="monotone" dataKey="revenue" stroke="#6366f1" fill="#6366f1" fillOpacity={0.1} strokeWidth={2} />
-                </AreaChart>
-              </ResponsiveContainer>
+              {popular.length > 0 ? (
+                <div className="space-y-1">
+                  {popular.slice(0, 10).map((page, i) => {
+                    const maxViews = popular[0]?.views || 1;
+                    const pct = Math.round((page.views / maxViews) * 100);
+                    return (
+                      <NavLink
+                        key={page.path}
+                        to={page.path}
+                        className="group flex items-center gap-3 py-2 px-2 rounded-lg hover:bg-accent/30 transition-colors"
+                      >
+                        <span className="text-[11px] text-muted-foreground w-5 text-right font-mono" style={{ fontWeight: 500 }}>
+                          {i + 1}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-[13px] truncate" style={{ fontWeight: 500 }}>
+                              {page.label}
+                            </span>
+                            <span className={`px-1.5 py-0.5 rounded text-[9px] uppercase tracking-wider ${CATEGORY_BG[page.category] || 'bg-muted text-muted-foreground'}`} style={{ fontWeight: 600 }}>
+                              {page.category}
+                            </span>
+                            <ExternalLink className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+                          </div>
+                          <div className="h-1 rounded-full bg-muted overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${pct}%` }}
+                              transition={{ delay: 0.5 + i * 0.05, duration: 0.6 }}
+                              className="h-full rounded-full"
+                              style={{ backgroundColor: CATEGORY_COLORS[page.category] || '#94a3b8' }}
+                            />
+                          </div>
+                        </div>
+                        <span className="text-[12px] text-muted-foreground font-mono flex-shrink-0" style={{ fontWeight: 500 }}>
+                          {page.views.toLocaleString()}
+                        </span>
+                      </NavLink>
+                    );
+                  })}
+                </div>
+              ) : (
+                <EmptyPanel message="Visit some pages to see rankings" />
+              )}
             </CardContent>
           </Card>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="lg:col-span-3">
+        {/* Component engagement */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45 }}
+        >
+          <Card className="h-full">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-[15px]">Component Engagement</CardTitle>
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-600 dark:text-violet-400" style={{ fontWeight: 600 }}>
+                <Zap className="w-3 h-3 inline mr-0.5" />
+                Views + Feedback
+              </span>
+            </CardHeader>
+            <CardContent>
+              {engagement.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-[12px]">
+                    <thead>
+                      <tr className="border-b border-border">
+                        <th className="text-left py-2 text-muted-foreground" style={{ fontWeight: 500 }}>Component</th>
+                        <th className="text-right py-2 text-muted-foreground" style={{ fontWeight: 500 }}>Views</th>
+                        <th className="text-right py-2 text-muted-foreground" style={{ fontWeight: 500 }}>
+                          <span className="hidden sm:inline">Feedback</span>
+                          <span className="sm:hidden">FB</span>
+                        </th>
+                        <th className="text-right py-2 text-muted-foreground" style={{ fontWeight: 500 }}>Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {engagement.slice(0, 10).map((item) => (
+                        <tr key={item.slug} className="border-b border-border/50 hover:bg-accent/30 transition-colors">
+                          <td className="py-2.5">
+                            <NavLink to={item.path} className="hover:text-primary transition-colors">
+                              <div className="flex items-center gap-2">
+                                <span style={{ fontWeight: 500 }}>{item.label}</span>
+                                {item.satisfaction !== null && item.satisfaction >= 80 && (
+                                  <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" />
+                                )}
+                              </div>
+                            </NavLink>
+                          </td>
+                          <td className="py-2.5 text-right text-muted-foreground font-mono">{item.views}</td>
+                          <td className="py-2.5 text-right">
+                            {item.feedbackTotal > 0 ? (
+                              <span className="inline-flex items-center gap-1">
+                                <span className="text-emerald-500">{item.feedbackUp}</span>
+                                <span className="text-muted-foreground/40">/</span>
+                                <span className="text-red-400">{item.feedbackDown}</span>
+                              </span>
+                            ) : (
+                              <span className="text-muted-foreground/40">—</span>
+                            )}
+                          </td>
+                          <td className="py-2.5 text-right font-mono" style={{ fontWeight: 600 }}>
+                            {item.engagement}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <EmptyPanel message="Engagement data populates as components get views and feedback" />
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+
+      {/* Feedback leaderboard + today's activity */}
+      <div className="grid lg:grid-cols-2 gap-4 mb-6">
+        {/* Feedback leaderboard */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <Card className="h-full">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-[15px]">Feedback Leaderboard</CardTitle>
+              <ThumbsUp className="w-4 h-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              {leaderboard.length > 0 ? (
+                <div className="space-y-3">
+                  {leaderboard.slice(0, 8).map((item, i) => (
+                    <div key={item.component} className="flex items-center gap-3">
+                      <span
+                        className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] flex-shrink-0 ${
+                          i === 0
+                            ? 'bg-amber-500/10 text-amber-500'
+                            : i === 1
+                              ? 'bg-slate-300/10 text-slate-400'
+                              : i === 2
+                                ? 'bg-orange-800/10 text-orange-600 dark:text-orange-400'
+                                : 'bg-muted text-muted-foreground'
+                        }`}
+                        style={{ fontWeight: 700 }}
+                      >
+                        {i + 1}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[13px] truncate block" style={{ fontWeight: 500 }}>
+                          {item.label}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 flex-shrink-0">
+                        <span className="text-[11px] text-muted-foreground">
+                          {item.total} votes
+                        </span>
+                        <div className="w-16">
+                          <Progress
+                            value={item.satisfaction}
+                            className="h-1.5"
+                          />
+                        </div>
+                        <span
+                          className={`text-[11px] w-8 text-right ${
+                            item.satisfaction >= 80 ? 'text-emerald-500' : item.satisfaction >= 50 ? 'text-amber-500' : 'text-red-500'
+                          }`}
+                          style={{ fontWeight: 600 }}
+                        >
+                          {item.satisfaction}%
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <EmptyPanel message="No feedback collected yet — rate components using the thumbs up/down buttons" />
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Today's activity summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55 }}
+        >
           <Card className="h-full">
             <CardHeader>
-              <CardTitle className="text-[15px]">Top Products</CardTitle>
+              <CardTitle className="text-[15px]">Today's Activity</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {[
-                  { name: 'Design System Pro', sales: 420, total: 500 },
-                  { name: 'Icon Pack', sales: 350, total: 500 },
-                  { name: 'UI Kit', sales: 290, total: 500 },
-                  { name: 'Template Bundle', sales: 180, total: 500 },
-                ].map(product => (
-                  <div key={product.name}>
-                    <div className="flex justify-between mb-1.5">
-                      <span className="text-[13px]" style={{ fontWeight: 500 }}>{product.name}</span>
-                      <span className="text-[12px] text-muted-foreground">{product.sales} sales</span>
+              {summary ? (
+                <div className="space-y-6">
+                  {/* Today vs yesterday comparison */}
+                  <div className="p-4 rounded-xl bg-gradient-to-br from-indigo-500/5 via-transparent to-violet-500/5 border border-border">
+                    <div className="flex items-baseline gap-3 mb-1">
+                      <span className="text-[2rem]" style={{ fontWeight: 700 }}>
+                        {summary.todayViews.toLocaleString()}
+                      </span>
+                      <span className="text-[14px] text-muted-foreground">views today</span>
                     </div>
-                    <Progress value={(product.sales / product.total) * 100} />
+                    <div className="flex items-center gap-1.5 text-[12px]">
+                      {summary.viewsChange >= 0 ? (
+                        <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
+                      ) : (
+                        <TrendingDown className="w-3.5 h-3.5 text-red-500" />
+                      )}
+                      <span className={summary.viewsChange >= 0 ? 'text-emerald-500' : 'text-red-500'} style={{ fontWeight: 500 }}>
+                        {summary.viewsChange >= 0 ? '+' : ''}{summary.viewsChange}%
+                      </span>
+                      <span className="text-muted-foreground">
+                        vs {summary.yesterdayViews.toLocaleString()} yesterday
+                      </span>
+                    </div>
                   </div>
-                ))}
-              </div>
+
+                  {/* Mini bar chart of recent days */}
+                  {trends.length > 0 && (
+                    <div>
+                      <p className="text-[11px] text-muted-foreground uppercase tracking-wider mb-3" style={{ fontWeight: 600 }}>
+                        Last 7 days
+                      </p>
+                      <ResponsiveContainer width="100%" height={100}>
+                        <BarChart data={trends.slice(-7)}>
+                          <XAxis dataKey="label" tick={{ fontSize: 10 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: 'var(--card)',
+                              border: '1px solid var(--border)',
+                              borderRadius: '0.75rem',
+                              fontSize: '12px',
+                            }}
+                            formatter={(value: number) => [value, 'views']}
+                          />
+                          <Bar dataKey="views" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  )}
+
+                  {/* Quick links */}
+                  <div className="flex flex-wrap gap-2">
+                    <NavLink
+                      to="/"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] bg-muted/50 border border-border hover:bg-accent/30 transition-colors"
+                      style={{ fontWeight: 500 }}
+                    >
+                      Browse Components
+                      <ArrowUpRight className="w-3 h-3" />
+                    </NavLink>
+                    <NavLink
+                      to="/ai/chat"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] bg-violet-500/5 border border-violet-500/20 text-violet-600 dark:text-violet-400 hover:bg-violet-500/10 transition-colors"
+                      style={{ fontWeight: 500 }}
+                    >
+                      AI Suite
+                      <Sparkles className="w-3 h-3" />
+                    </NavLink>
+                  </div>
+                </div>
+              ) : (
+                <EmptyPanel message="Loading today's activity..." />
+              )}
             </CardContent>
           </Card>
         </motion.div>
       </div>
 
-      {/* Recent Orders */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-[15px]">Recent Orders</CardTitle>
-            <Button variant="ghost" size="sm" className="text-[13px]">View All <ArrowUpRight className="w-3.5 h-3.5 ml-1" /></Button>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full text-[13px]">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2.5 text-muted-foreground" style={{ fontWeight: 500 }}>Order</th>
-                    <th className="text-left py-2.5 text-muted-foreground" style={{ fontWeight: 500 }}>Customer</th>
-                    <th className="text-left py-2.5 text-muted-foreground" style={{ fontWeight: 500 }}>Status</th>
-                    <th className="text-right py-2.5 text-muted-foreground" style={{ fontWeight: 500 }}>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentOrders.map(order => (
-                    <tr key={order.id} className="border-b border-border/50 hover:bg-accent/30 transition-colors">
-                      <td className="py-3 font-mono" style={{ fontWeight: 500 }}>{order.id}</td>
-                      <td className="py-3">
-                        <div>
-                          <span style={{ fontWeight: 500 }}>{order.customer}</span>
-                          <span className="text-muted-foreground block text-[12px]">{order.email}</span>
-                        </div>
-                      </td>
-                      <td className="py-3">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] ${statusColors[order.status]}`} style={{ fontWeight: 500 }}>
-                          {order.status}
-                        </span>
-                      </td>
-                      <td className="py-3 text-right" style={{ fontWeight: 600 }}>{order.amount}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Data source footer */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+        className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 border-t border-border text-[11px] text-muted-foreground"
+      >
+        <div className="flex items-center gap-4 flex-wrap">
+          <span className="flex items-center gap-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            Powered by Supabase Edge Functions
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Activity className="w-3 h-3" />
+            KV Store persistence
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Zap className="w-3 h-3" />
+            Real-time aggregation
+          </span>
+        </div>
+        {summary && (
+          <span className="text-muted-foreground/60">
+            {summary.timestamp && new Date(summary.timestamp).toLocaleString()}
+          </span>
+        )}
       </motion.div>
+    </div>
+  );
+}
+
+/* ================================================================ */
+/*  Empty state panel                                               */
+/* ================================================================ */
+function EmptyPanel({ message }: { message: string }) {
+  return (
+    <div className="py-10 text-center">
+      <BarChart3 className="w-8 h-8 mx-auto mb-2 text-muted-foreground/20" />
+      <p className="text-[13px] text-muted-foreground">{message}</p>
     </div>
   );
 }

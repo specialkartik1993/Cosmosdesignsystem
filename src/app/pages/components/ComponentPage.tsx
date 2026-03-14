@@ -1,3 +1,5 @@
+import { CosmicAIIcon } from '../../components/CosmicAIIcon';
+import { FeedbackWidget } from '../../components/FeedbackWidget';
 import { ReactNode, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLocation } from 'react-router';
@@ -6,7 +8,6 @@ import {
   Sparkles, Brain, TreeDeciduous, FileJson, Puzzle,
   CheckCircle2, Cpu, Accessibility, Layers, Palette
 } from 'lucide-react';
-import { CosmicAIIcon } from '../../components/CosmicAIIcon';
 
 /* ------------------------------------------------------------------ */
 /*  AI Compatibility metadata per component                            */
@@ -274,6 +275,7 @@ export function ComponentPage({ title, description, children, badge, aiMeta }: C
         </motion.div>
       </motion.div>
       {children}
+      <FeedbackWidget component={componentSlug || title.toLowerCase()} />
     </div>
   );
 }
