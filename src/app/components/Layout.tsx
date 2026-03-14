@@ -7,7 +7,7 @@ import {
   Sun, Moon, Sparkles, Circle,
   Menu, Search, ChevronDown, ChevronRight,
   Zap, BookOpen, Shapes, Paintbrush, Code2, Blocks, Accessibility,
-  ShieldCheck, Wand2
+  ShieldCheck, Wand2, Github, ArrowUpRight
 } from 'lucide-react';
 import { CosmicAIIcon } from './CosmicAIIcon';
 import { CosmosLogoMark, CosmosWordmark } from './CosmosLogo';
@@ -20,7 +20,7 @@ const navSections = [
     items: [
       { label: 'Overview', path: '/' },
       { label: 'Installation', path: '/installation' },
-      { label: 'Changelog', path: '/changelog', badge: 'v1.1' },
+      { label: 'Changelog', path: '/changelog', badge: 'v1.1', comingSoon: true },
     ]
   },
   {
@@ -141,6 +141,7 @@ const navSections = [
       { label: 'Animations', path: '/examples/animations' },
       { label: 'Playground', path: '/examples/playground' },
       { label: 'Cosmic AI Playground', path: '/examples/ai-playground', badge: 'NEW' },
+      { label: 'Figma Plugin', path: '/examples/figma-plugin', badge: 'NEW' },
     ]
   },
   {
@@ -277,9 +278,8 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
 
       {/* Footer */}
       <div className="p-4 border-t border-border space-y-3">
-        <NavLink
-          to="/changelog"
-          className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-primary/5 via-purple-500/5 to-pink-500/5 border border-primary/10 hover:border-primary/25 hover:shadow-md hover:shadow-primary/5 transition-all text-[12px] group"
+        <div
+          className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-primary/5 via-purple-500/5 to-pink-500/5 border border-primary/10 text-[12px] cursor-default"
         >
           <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}>
             <Sparkles className="w-3.5 h-3.5 text-primary" />
@@ -288,8 +288,20 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
             <span style={{ fontWeight: 600 }}>Cosmos v1.1</span>
             <span className="text-muted-foreground ml-1.5">is out</span>
           </div>
-          <ChevronRight className="w-3 h-3 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-        </NavLink>
+          <span className="px-1.5 py-0.5 text-[9px] rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400" style={{ fontWeight: 600 }}>
+            CHANGELOG SOON
+          </span>
+        </div>
+        <a
+          href="https://github.com/specialkartik1993/Cosmosdesignsystem"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border hover:bg-accent/30 hover:border-border/80 transition-all text-[12px] text-muted-foreground hover:text-foreground group"
+        >
+          <Github className="w-3.5 h-3.5" />
+          <span className="flex-1" style={{ fontWeight: 500 }}>Star on GitHub</span>
+          <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+        </a>
         <div className="flex items-center justify-center gap-1.5 text-[10px] text-muted-foreground">
           <CosmosLogoMark size={12} className="text-muted-foreground opacity-50" />
           <span>Cosmos DS · MIT Licensed</span>
@@ -441,11 +453,13 @@ export function Layout() {
               </AnimatePresence>
             </button>
             <a
-              href="#"
+              href="https://github.com/specialkartik1993/Cosmosdesignsystem"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-[13px] hover:opacity-90 transition-opacity"
               style={{ fontWeight: 500 }}
             >
-              <Code2 className="w-3.5 h-3.5" />
+              <Github className="w-3.5 h-3.5" />
               GitHub
             </a>
           </div>

@@ -13,7 +13,7 @@ import {
   Eye, Terminal, Building2, CheckCircle2, Star, Package,
   Gauge, Lock, LayoutGrid, Heart, TrendingUp, Clock,
   Play, Download, BookOpen, Cpu, ChevronDown,
-  ArrowUpRight, Workflow, Wand2
+  ArrowUpRight, Workflow, Wand2, Github
 } from 'lucide-react';
 import { CosmosLogoMark } from '../components/CosmosLogo';
 import { CosmicAIIcon } from '../components/CosmicAIIcon';
@@ -207,7 +207,7 @@ function HeroParallaxInner() {
           style={{ y: badgeY }}
         >
           <NavLink
-            to="/changelog"
+            to="/installation"
             className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 shadow-sm hover:border-white/20 hover:bg-white/[0.1] transition-all duration-300 backdrop-blur-sm mb-8"
           >
             <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px]" style={{ fontWeight: 600 }}>
@@ -312,6 +312,16 @@ function HeroParallaxInner() {
             <Play className="w-4 h-4" />
             Playground
           </NavLink>
+          <a
+            href="https://github.com/specialkartik1993/Cosmosdesignsystem"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl border border-white/15 text-white/80 bg-white/[0.04] text-[15px] hover:bg-white/[0.08] hover:border-white/25 transition-all duration-200 backdrop-blur-sm"
+            style={{ fontWeight: 500 }}
+          >
+            <Github className="w-4 h-4" />
+            GitHub
+          </a>
         </motion.div>
 
         {/* Scroll indicator */}
@@ -934,6 +944,16 @@ function BottomCTAInner() {
             <BookOpen className="w-4.5 h-4.5" />
             Read the Docs
           </NavLink>
+          <a
+            href="https://github.com/specialkartik1993/Cosmosdesignsystem"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl border border-border bg-card text-foreground text-[15px] hover:bg-accent/50 transition-all shadow-sm"
+            style={{ fontWeight: 500 }}
+          >
+            <Github className="w-4.5 h-4.5" />
+            Star on GitHub
+          </a>
         </motion.div>
 
         <motion.div

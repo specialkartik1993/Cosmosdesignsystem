@@ -23,7 +23,7 @@ const searchItems: SearchItem[] = [
   { title: 'Overview', path: '/', category: 'Getting Started', icon: BookOpen },
   { title: 'Installation', path: '/installation', category: 'Getting Started', icon: FileText },
   // New pages
-  { title: 'Changelog', path: '/changelog', category: 'Getting Started', icon: Tag },
+  { title: 'Changelog', path: '/changelog', category: 'Getting Started', icon: Tag, comingSoon: true },
   { title: 'Theming Guide', path: '/theming', category: 'Design Tokens', icon: Settings },
   { title: 'Figma Integration', path: '/figma', category: 'Design Tokens', icon: Palette },
   { title: 'API Reference', path: '/api', category: 'Design Tokens', icon: Package },
@@ -93,6 +93,7 @@ const searchItems: SearchItem[] = [
   { title: 'Animations', path: '/examples/animations', category: 'Examples', icon: Zap },
   { title: 'Playground', path: '/examples/playground', category: 'Examples', icon: Play },
   { title: 'Cosmic AI Playground', path: '/examples/ai-playground', category: 'Examples', icon: CosmicAIIcon },
+  { title: 'Figma Plugin', path: '/examples/figma-plugin', category: 'Examples', icon: Figma },
   // Accessibility
   { title: 'Accessibility Audit', path: '/accessibility', category: 'Accessibility', icon: Accessibility },
   { title: 'Color Contrast Checker', path: '/accessibility', category: 'Accessibility', icon: Palette },

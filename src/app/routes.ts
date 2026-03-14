@@ -58,6 +58,7 @@ import { AIPromptPage } from './pages/ai/AIPromptPage';
 import { AIResponsePage } from './pages/ai/AIResponsePage';
 import { AICopilotPage } from './pages/ai/AICopilotPage';
 import { AIWidgetsPage } from './pages/ai/AIWidgetsPage';
+import { FigmaPlugin } from './pages/examples/FigmaPlugin';
 import { NotFound } from './pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -67,7 +68,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, Component: Overview },
       { path: 'installation', Component: Installation },
-      { path: 'changelog', Component: Changelog },
+      // { path: 'changelog', Component: Changelog }, // Coming soon
       // Foundations
       { path: 'foundations/colors', Component: Colors },
       { path: 'foundations/typography', Component: Typography },
@@ -136,6 +137,7 @@ export const router = createBrowserRouter([
       { path: 'examples/animations', Component: Animations },
       { path: 'examples/playground', Component: Playground },
       { path: 'examples/ai-playground', Component: AIPlayground },
+      { path: 'examples/figma-plugin', Component: FigmaPlugin },
       // Accessibility
       { path: 'accessibility', Component: AccessibilityPage },
       // 404

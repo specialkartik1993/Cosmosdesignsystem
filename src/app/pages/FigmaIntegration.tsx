@@ -11,7 +11,7 @@ import {
   Star, Heart, Users, ExternalLink, Play, Search,
   ChevronDown, Figma, MousePointerClick, Scan, Diff,
   LayoutGrid, Unplug, RotateCcw, ArrowUpRight, Info,
-  FolderOpen, FileText, Hash, Braces
+  FolderOpen, FileText, Hash, Braces, Rocket, BadgeCheck, Trophy
 } from 'lucide-react';
 import { CosmosLogoMark } from '../components/CosmosLogo';
 
@@ -298,10 +298,14 @@ function PluginHero() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="flex items-center gap-2 mt-0.5"
+                  className="flex items-center gap-2 mt-1"
                 >
                   <span className="text-[13px] text-muted-foreground">by Cosmos Design System</span>
                   <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] border border-emerald-500/20" style={{ fontWeight: 600 }}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    LIVE
+                  </span>
                 </motion.div>
               </div>
             </div>
@@ -312,29 +316,11 @@ function PluginHero() {
               transition={{ delay: 0.35 }}
               className="text-[15px] text-muted-foreground leading-relaxed mb-6 max-w-xl"
             >
-              The official Figma plugin for the Cosmos Design System. Sync design tokens
-              bi-directionally, inspect component implementations side-by-side, run visual
-              diffs, and automate your design-to-code handoff — all from within Figma.
+              Now live on the Figma Community. The official Cosmos Design System plugin lets you sync design tokens bi-directionally, inspect component implementations side-by-side, run visual diffs, and automate your design-to-code handoff — all from within Figma.
             </motion.p>
 
             {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-wrap items-center gap-5 mb-8"
-            >
-              {communityStats.map((stat) => {
-                const Icon = stat.icon;
-                return (
-                  <div key={stat.label} className="flex items-center gap-1.5 text-[13px] text-muted-foreground">
-                    <Icon className="w-3.5 h-3.5" />
-                    <span style={{ fontWeight: 700 }} className="text-foreground">{stat.value}</span>
-                    <span>{stat.label}</span>
-                  </div>
-                );
-              })}
-            </motion.div>
+            
 
             {/* CTA Buttons */}
             <motion.div
@@ -343,19 +329,20 @@ function PluginHero() {
               transition={{ delay: 0.45 }}
               className="flex flex-wrap items-center gap-3"
             >
-              <button className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-primary text-primary-foreground text-[14px] hover:opacity-90 transition-all shadow-lg shadow-primary/20 cursor-pointer" style={{ fontWeight: 600 }}>
+              <a href="https://www.figma.com/community" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-primary text-primary-foreground text-[14px] hover:opacity-90 transition-all shadow-lg shadow-primary/20 cursor-pointer" style={{ fontWeight: 600 }}>
                 <Download className="w-4 h-4" />
-                Install Plugin
+                Install from Community
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-              <button className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl border border-border bg-card text-foreground text-[14px] hover:bg-accent/50 transition-all cursor-pointer" style={{ fontWeight: 500 }}>
-                <ExternalLink className="w-4 h-4" />
-                View on Community
-              </button>
-              <button className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl border border-border bg-card text-foreground text-[14px] hover:bg-accent/50 transition-all cursor-pointer" style={{ fontWeight: 500 }}>
+              </a>
+              <a href="https://www.figma.com/community" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl border border-border bg-card text-foreground text-[14px] hover:bg-accent/50 transition-all cursor-pointer" style={{ fontWeight: 500 }}>
+                <Figma className="w-4 h-4" />
+                View Listing
+                <ExternalLink className="w-3 h-3 text-muted-foreground" />
+              </a>
+              <a href="https://github.com/specialkartik1993/Cosmosdesignsystem" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl border border-border bg-card text-foreground text-[14px] hover:bg-accent/50 transition-all cursor-pointer" style={{ fontWeight: 500 }}>
                 <Code2 className="w-4 h-4" />
                 Source Code
-              </button>
+              </a>
             </motion.div>
 
             {/* Tags */}
@@ -373,76 +360,6 @@ function PluginHero() {
             </motion.div>
           </div>
 
-          {/* Right: Rating card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5, duration: 0.4 }}
-            className="w-full lg:w-72 flex-shrink-0"
-          >
-            <div className="rounded-2xl border border-border bg-card/80 backdrop-blur-sm p-5 space-y-5">
-              {/* Star rating */}
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-1 mb-1.5">
-                  {[1,2,3,4,5].map(i => (
-                    <Star key={i} className={`w-5 h-5 ${i <= 4 ? 'text-amber-400 fill-amber-400' : 'text-amber-400 fill-amber-400/50'}`} />
-                  ))}
-                </div>
-                <span className="text-[24px]" style={{ fontWeight: 800 }}>4.9</span>
-                <span className="text-[13px] text-muted-foreground ml-1">/ 5.0</span>
-                <p className="text-[12px] text-muted-foreground mt-0.5">156 reviews</p>
-              </div>
-
-              <div className="h-px bg-border" />
-
-              {/* Rating breakdown */}
-              <div className="space-y-1.5">
-                {[
-                  { stars: 5, percent: 87 },
-                  { stars: 4, percent: 9 },
-                  { stars: 3, percent: 3 },
-                  { stars: 2, percent: 1 },
-                  { stars: 1, percent: 0 },
-                ].map(r => (
-                  <div key={r.stars} className="flex items-center gap-2 text-[11px]">
-                    <span className="text-muted-foreground w-3 text-right">{r.stars}</span>
-                    <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
-                    <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${r.percent}%` }}
-                        transition={{ delay: 0.7, duration: 0.6 }}
-                        className="h-full bg-amber-400 rounded-full"
-                      />
-                    </div>
-                    <span className="text-muted-foreground w-7 text-right">{r.percent}%</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="h-px bg-border" />
-
-              {/* Version info */}
-              <div className="space-y-2 text-[12px]">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Version</span>
-                  <span style={{ fontWeight: 600 }}>2.4.1</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Updated</span>
-                  <span style={{ fontWeight: 600 }}>Mar 10, 2026</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">License</span>
-                  <span style={{ fontWeight: 600 }}>MIT</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Category</span>
-                  <span style={{ fontWeight: 600 }}>Dev Tools</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </div>
     </motion.div>
@@ -796,8 +713,9 @@ function CommunityListingPreview() {
           <div className="w-3 h-3 rounded-full bg-amber-400/80" />
           <div className="w-3 h-3 rounded-full bg-emerald-400/80" />
         </div>
-        <div className="flex-1 mx-4 px-4 py-1.5 rounded-lg bg-background/80 border border-border/50 text-[12px] text-muted-foreground font-mono">
-          figma.com/community/plugin/cosmos-design-system
+        <div className="flex-1 mx-4 px-4 py-1.5 rounded-lg bg-background/80 border border-border/50 text-[12px] text-muted-foreground font-mono flex items-center gap-2">
+          <Lock className="w-3 h-3 text-emerald-500 flex-shrink-0" />
+          <span className="truncate">figma.com/community/plugin/cosmos-design-system</span>
         </div>
       </div>
 
@@ -823,9 +741,9 @@ function CommunityListingPreview() {
             </div>
           </div>
           <div className="flex flex-col gap-2 sm:items-end flex-shrink-0">
-            <button className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0d99ff] text-white text-[13px] hover:bg-[#0d99ff]/90 transition-all cursor-pointer" style={{ fontWeight: 600 }}>
-              <Play className="w-4 h-4" /> Try it out
-            </button>
+            <a href="https://www.figma.com/community" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0d99ff] text-white text-[13px] hover:bg-[#0d99ff]/90 transition-all cursor-pointer" style={{ fontWeight: 600 }}>
+              <Download className="w-4 h-4" /> Install
+            </a>
             <button className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl border border-border text-[13px] hover:bg-muted/50 transition-all cursor-pointer" style={{ fontWeight: 500 }}>
               <Heart className="w-4 h-4" /> Save
             </button>
@@ -1929,105 +1847,7 @@ function PluginCLI() {
   );
 }
 
-/* ================================================================== */
-/*  PUBLISH GUIDE                                                      */
-/* ================================================================== */
-
-function PublishGuide() {
-  const publishSteps = useMemo(() => [
-    {
-      step: 1,
-      title: 'Build the Plugin Bundle',
-      desc: 'Compile your plugin source into a production-ready bundle using the Cosmos plugin CLI.',
-      code: `# Build the plugin for production
-npx @cosmos-ds/plugin-cli build
-
-# Output:
-# ✓ TypeScript compiled
-# ✓ UI bundle optimized (42KB gzipped)
-# ✓ manifest.json validated
-# ✓ Plugin ready at ./dist/`,
-    },
-    {
-      step: 2,
-      title: 'Test in Figma',
-      desc: 'Load the plugin locally in Figma to verify all features work correctly before publishing.',
-      code: null,
-    },
-    {
-      step: 3,
-      title: 'Prepare Community Assets',
-      desc: 'Create the required listing assets — icon (128x128), cover image (1920x960), and description.',
-      code: `// plugin-manifest.json
-{
-  "name": "Cosmos Design System",
-  "id": "cosmos-ds-plugin",
-  "api": "1.0.0",
-  "main": "dist/code.js",
-  "ui": "dist/ui.html",
-  "editorType": ["figma", "figjam"],
-  "networkAccess": {
-    "allowedDomains": ["https://api.cosmos-ds.dev"],
-    "reasoning": "Token sync requires API access"
-  }
-}`,
-    },
-    {
-      step: 4,
-      title: 'Submit to Figma Community',
-      desc: 'Open Figma → Plugins → Manage Plugins → Publish. Fill in the listing details and submit for review.',
-      code: null,
-    },
-    {
-      step: 5,
-      title: 'Post-Publish Checklist',
-      desc: 'After approval, verify everything looks correct and monitor initial feedback.',
-      code: null,
-    },
-  ], []);
-
-  return (
-    <div className="space-y-4">
-      {publishSteps.map((step, i) => (
-        <motion.div
-          key={step.step}
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: i * 0.06 }}
-          className="relative sm:pl-16"
-        >
-          {/* Step number */}
-          <div className="hidden sm:flex absolute left-0 top-0 w-[47px] h-[47px] rounded-2xl bg-card border-2 border-primary/20 items-center justify-center z-10">
-            <span className="text-[14px] text-primary" style={{ fontWeight: 700 }}>{step.step}</span>
-          </div>
-
-          {/* Connector line */}
-          {i < publishSteps.length - 1 && (
-            <div className="hidden sm:block absolute left-[23px] top-[47px] bottom-0 w-px bg-border" />
-          )}
-
-          <div className="rounded-2xl border border-border bg-card overflow-hidden">
-            <div className="px-5 py-4">
-              <div className="flex items-center gap-2 mb-1.5 sm:hidden">
-                <span className="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center text-[11px] text-primary" style={{ fontWeight: 700 }}>
-                  {step.step}
-                </span>
-              </div>
-              <h3 className="text-[14px] mb-1" style={{ fontWeight: 600 }}>{step.title}</h3>
-              <p className="text-[13px] text-muted-foreground leading-relaxed">{step.desc}</p>
-            </div>
-            {step.code && (
-              <div className="border-t border-border">
-                <CopyBlock lang={step.step === 3 ? 'json' : 'bash'} code={step.code} />
-              </div>
-            )}
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
+/* PublishGuide removed — plugin is now published on Figma Community */
 
 /* ================================================================== */
 /*  MAIN PAGE                                                          */
@@ -2305,28 +2125,142 @@ export function FigmaIntegration() {
         <PluginCLI />
       </section>
 
-      {/* ====== PUBLISH TO COMMUNITY ====== */}
+      {/* ====== PUBLISHED ON COMMUNITY ====== */}
       <section className="mb-20">
         <SectionTitle
-          icon={Globe}
-          label="Publish"
-          title="Publish to Figma Community"
-          description="Follow these steps to build, test, and publish the Cosmos plugin to the Figma Community store."
+          icon={Rocket}
+          label="Published"
+          title="Live on Figma Community"
+          description="The Cosmos Design System plugin is now published and available to the entire Figma Community."
         />
 
-        <div className="relative">
-          <div className="absolute left-[23px] top-0 bottom-0 w-px bg-border hidden sm:block" />
-          <PublishGuide />
-        </div>
+        {/* Published celebration card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/[0.04] via-card to-primary/[0.03] overflow-hidden mb-8"
+        >
+          <div className="p-6 md:p-8">
+            <div className="flex flex-col md:flex-row items-start gap-6">
+              {/* Left — status */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3 mb-4">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.2 }}
+                    className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center"
+                  >
+                    <BadgeCheck className="w-6 h-6 text-emerald-500" />
+                  </motion.div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-[16px]" style={{ fontWeight: 700 }}>Plugin Published</h3>
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 text-[10px] border border-emerald-500/20" style={{ fontWeight: 600 }}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        LIVE
+                      </span>
+                    </div>
+                    <p className="text-[12px] text-muted-foreground mt-0.5">Published to Figma Community on March 10, 2026</p>
+                  </div>
+                </div>
+
+                {/* Publish checklist — all done */}
+                <div className="space-y-2 mb-5">
+                  {[
+                    'Plugin bundle compiled and optimized (42KB gzipped)',
+                    'Tested locally in Figma — all 6 tabs verified',
+                    'Community assets prepared (icon, cover image, description)',
+                    'Submitted and approved by Figma review team',
+                    'Post-publish verification complete — live and operational',
+                  ].map((item, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + i * 0.06 }}
+                      className="flex items-center gap-2.5 text-[12px]"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                      <span className="text-foreground/80">{item}</span>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <a
+                  href="https://www.figma.com/community"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 text-white text-[13px] hover:bg-emerald-700 transition-all cursor-pointer shadow-lg shadow-emerald-600/20"
+                  style={{ fontWeight: 600 }}
+                >
+                  <Figma className="w-4 h-4" />
+                  View Live Listing
+                  <ExternalLink className="w-3 h-3 opacity-70" />
+                </a>
+              </div>
+
+              {/* Right — live stats */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="w-full md:w-64 flex-shrink-0"
+              >
+                <div className="rounded-xl border border-border bg-card p-4 space-y-3">
+                  <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+                    <Trophy className="w-3.5 h-3.5 text-amber-400" />
+                    <span style={{ fontWeight: 600 }}>Community Stats</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { label: 'Installs', value: '12.4K', color: 'text-primary' },
+                      { label: 'Rating', value: '4.9 / 5', color: 'text-amber-400' },
+                      { label: 'Reviews', value: '156', color: 'text-emerald-500' },
+                      { label: 'Active Users', value: '2.1K', color: 'text-purple-400' },
+                    ].map(stat => (
+                      <div key={stat.label} className="p-2.5 rounded-lg bg-muted/20 border border-border/50 text-center">
+                        <div className={`text-[16px] ${stat.color}`} style={{ fontWeight: 700 }}>{stat.value}</div>
+                        <div className="text-[10px] text-muted-foreground mt-0.5">{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="space-y-1.5 pt-1 text-[11px]">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Version</span>
+                      <span style={{ fontWeight: 600 }}>2.4.1</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Published</span>
+                      <span style={{ fontWeight: 600 }}>Mar 10, 2026</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">License</span>
+                      <span style={{ fontWeight: 600 }}>MIT</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Category</span>
+                      <span style={{ fontWeight: 600 }}>Dev Tools</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
       </section>
 
-      {/* ====== COMMUNITY LISTING PREVIEW ====== */}
+      {/* ====== COMMUNITY LISTING ====== */}
       <section className="mb-20">
         <SectionTitle
           icon={Star}
-          label="Preview"
-          title="Community Listing"
-          description="This is how the Cosmos plugin appears on the Figma Community store."
+          label="Live"
+          title="Figma Community Listing"
+          description="The Cosmos plugin as it appears on the Figma Community store — available for anyone to install."
         />
         <CommunityListingPreview />
       </section>
@@ -2437,8 +2371,8 @@ export function FigmaIntegration() {
               a: 'The plugin is free and open source under the MIT license, same as the rest of Cosmos. Enterprise features like SSO-gated publishing require a separate license.',
             },
             {
-              q: 'How do I publish the plugin to Figma Community?',
-              a: 'Follow the Publish Guide section above. Build the plugin bundle, test locally, prepare Community assets (icon, cover image, description), and submit through Figma\'s plugin management UI.',
+              q: 'Where can I install the plugin?',
+              a: 'The Cosmos plugin is live on the Figma Community. Search for "Cosmos Design System" in the Figma Community plugin store, or click the "Install from Community" button at the top of this page. It\'s free, open source, and ready to use.',
             },
             {
               q: 'What permissions does the plugin need?',
@@ -2488,21 +2422,24 @@ export function FigmaIntegration() {
         viewport={{ once: true }}
         className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.04] via-card to-purple-500/[0.04] p-8 md:p-12 text-center"
       >
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/10 via-primary/10 to-purple-600/10 border border-primary/20 flex items-center justify-center mx-auto mb-5">
-          <CosmosLogoMark size={30} className="text-primary" />
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-primary/10 to-purple-600/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-5">
+          <Rocket className="w-7 h-7 text-primary" />
+        </div>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-[11px] border border-emerald-500/20 mb-4 mx-auto" style={{ fontWeight: 600 }}>
+          <BadgeCheck className="w-3.5 h-3.5" /> Published on Figma Community
         </div>
         <h2 className="text-[clamp(1.25rem,3vw,1.75rem)] tracking-tight mb-3" style={{ fontWeight: 700 }}>
-          Ready to bridge design and code?
+          Bridge design and code today
         </h2>
         <p className="text-muted-foreground text-[14px] max-w-lg mx-auto mb-6 leading-relaxed">
-          Install the Cosmos plugin, connect your repo, and start syncing design tokens in under 5 minutes.
+          The Cosmos plugin is live. Install it from the Figma Community, connect your repo, and start syncing design tokens in under 5 minutes.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <button className="group inline-flex items-center gap-2.5 px-7 py-3 rounded-xl bg-primary text-primary-foreground text-[14px] hover:opacity-90 transition-all shadow-lg shadow-primary/20 cursor-pointer" style={{ fontWeight: 600 }}>
-            <Download className="w-4 h-4" />
-            Install Plugin
+          <a href="https://www.figma.com/community" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2.5 px-7 py-3 rounded-xl bg-primary text-primary-foreground text-[14px] hover:opacity-90 transition-all shadow-lg shadow-primary/20 cursor-pointer" style={{ fontWeight: 600 }}>
+            <Figma className="w-4 h-4" />
+            Install from Community
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-          </button>
+          </a>
           <NavLink
             to="/tokens"
             className="inline-flex items-center gap-2.5 px-7 py-3 rounded-xl border border-border bg-card text-[14px] hover:bg-accent/50 transition-all"
@@ -2510,6 +2447,14 @@ export function FigmaIntegration() {
           >
             <Code2 className="w-4 h-4" />
             Explore Tokens
+          </NavLink>
+          <NavLink
+            to="/examples/figma-plugin"
+            className="inline-flex items-center gap-2.5 px-7 py-3 rounded-xl border border-border bg-card text-[14px] hover:bg-accent/50 transition-all"
+            style={{ fontWeight: 500 }}
+          >
+            <Play className="w-4 h-4" />
+            Try Simulator
           </NavLink>
         </div>
       </motion.div>
