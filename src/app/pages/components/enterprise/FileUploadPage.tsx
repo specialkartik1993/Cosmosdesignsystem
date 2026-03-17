@@ -103,22 +103,34 @@ export function FileUploadPage() {
   return (
     <ComponentPage title="File Upload" description="Enterprise file upload with drag-and-drop, progress tracking, file validation, thumbnail previews, and multiple upload zones.">
       {/* Main Upload Zone */}
-      <Showcase title="Drag & Drop Zone" description="Full-featured upload zone with drag-and-drop, file browser, and real-time progress tracking." delay={0.05} code={`import { FileUpload } from '@cosmos-ds/enterprise';
+      <Showcase title="Drag & Drop Zone" description="Full-featured upload zone with drag-and-drop, file browser, and real-time progress tracking." delay={0.05} code={`import {
+  FileUploadDropzone,
+  FileUploadList,
+  useFileUpload,
+  formatFileSize,
+} from '@cosmos-ds/react';
+// Also available: FileUploadItem, FileUploadAvatarZone,
+// getFileIcon, getFileColor
 
-<FileUpload
+const { files, addFiles, removeFile, retryFile, clearAll,
+        completedCount, uploadingCount, totalSize } = useFileUpload({
+  maxSize: 50 * 1024 * 1024,   // 50MB limit
+  simulateDelay: 200,           // demo upload speed
+});
+
+<FileUploadDropzone
   accept="image/*,.pdf,.zip,.fig"
-  maxSize={50 * 1024 * 1024}
   multiple
-  onUpload={handleUpload}
-  onRemove={handleRemove}
->
-  <FileUpload.Dropzone>
-    <CloudUpload />
-    <p>Drag & drop files here, or click to browse</p>
-    <p>Supports images, PDFs, Figma files, and archives up to 50MB</p>
-  </FileUpload.Dropzone>
-  <FileUpload.List />
-</FileUpload>`}>
+  label="Drag & drop files here, or click to browse"
+  description="Supports images, PDFs, Figma files, and archives up to 50MB"
+  formats={['JPG', 'PNG', 'PDF', 'FIG', 'ZIP']}
+  onFilesAdd={addFiles}
+/>
+<FileUploadList
+  files={files}
+  onRemove={removeFile}
+  onRetry={retryFile}
+/>`}>
         <div className="space-y-4">
           {/* Drop zone */}
           <motion.div
@@ -127,8 +139,8 @@ export function FileUploadPage() {
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
             animate={{
-              borderColor: isDragOver ? 'var(--primary)' : 'var(--border)',
-              backgroundColor: isDragOver ? 'hsl(var(--primary) / 0.05)' : 'transparent',
+              borderColor: isDragOver ? '#818cf8' : 'rgba(255,255,255,0.08)',
+              backgroundColor: isDragOver ? 'rgba(129,140,248,0.05)' : 'rgba(0,0,0,0)',
               scale: isDragOver ? 1.01 : 1,
             }}
             transition={{ duration: 0.2 }}

@@ -21,7 +21,9 @@ export function FormPage() {
     >
       <Toaster position="top-right" richColors />
 
-      <Showcase title="Sign Up Form" delay={0.1} code={`<form onSubmit={handleSubmit}>
+      <Showcase title="Sign Up Form" delay={0.1} code={`import { Input, Label, Button, Select, Checkbox } from '@cosmos-ds/react';
+
+<form onSubmit={handleSubmit}>
   <div className="grid grid-cols-2 gap-3">
     <div className="space-y-2">
       <Label>First Name</Label>

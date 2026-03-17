@@ -14,7 +14,9 @@ export function CalendarPage() {
       title="Calendar"
       description="Calendar components for date selection, ranges, and scheduling."
     >
-      <Showcase title="Single Date" delay={0.1} code={`<Calendar
+      <Showcase title="Single Date" delay={0.1} code={`import { Calendar } from '@cosmos-ds/react';
+
+<Calendar
   mode="single"
   selected={date}
   onSelect={setDate}

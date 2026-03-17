@@ -535,22 +535,43 @@ export function AIWidgetsPage() {
   return (
     <ComponentPage
       title="Cosmic Widgets"
-      description="Atomic UI widgets designed for Cosmic AI-powered interfaces. Status indicators, token meters, confidence displays, model selectors, feedback actions, and more — the building blocks of intelligent UX."
+      description="Atomic UI widgets designed for Cosmic AI-powered interfaces. Status indicators, token meters, confidence displays, model selectors, feedback actions, and more. The building blocks of intelligent UX."
     >
       {/* Status Indicators */}
       <Showcase
         title="Status Indicators"
         description="Communicate AI system state with animated dots and semantic badges."
         delay={0.1}
-        code={`{/* Status Dot */}
-<AIStatusDot status="online" />
+        code={`import {
+  AIStatusDot, AIConfidenceMeter, AITokenCounter,
+  AIModelSelector, AIThinkingAnimation,
+} from '@cosmos-ds/react';
+
+// Status dot with pulse animation
+<AIStatusDot status="online" showLabel />
 <AIStatusDot status="thinking" />
 <AIStatusDot status="streaming" />
 
-{/* Status Badge */}
-<AIStatusBadge status="ready" />
-<AIStatusBadge status="thinking" />
-<AIStatusBadge status="streaming" />`}
+// Confidence meter (bar, ring, or badge)
+<AIConfidenceMeter value={95} variant="bar" label="Accuracy" />
+<AIConfidenceMeter value={72} variant="ring" size="md" />
+<AIConfidenceMeter value={35} variant="badge" />
+
+// Token counter
+<AITokenCounter used={1240} limit={4096} label="Tokens" />
+
+// Model selector dropdown
+<AIModelSelector
+  models={[
+    { id: 'gpt4o', name: 'GPT-4o', description: 'Most capable' },
+    { id: 'claude', name: 'Claude 3.5', description: 'Balanced' },
+  ]}
+  value={selectedModel}
+  onChange={setSelectedModel}
+/>
+
+// Thinking animation (dots, pulse, orbital)
+<AIThinkingAnimation variant="orbital" label="Analyzing" />`}
       >
         <div className="space-y-6">
           <div>
@@ -704,7 +725,7 @@ export function AIWidgetsPage() {
       {/* Feedback Actions */}
       <Showcase
         title="Feedback Actions"
-        description="Response-level feedback controls — compact icon row or expanded category chips."
+        description="Response-level feedback controls. Compact icon row or expanded category chips."
         delay={0.4}
         code={`{/* Compact actions */}
 <FeedbackActions />

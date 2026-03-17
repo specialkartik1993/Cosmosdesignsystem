@@ -302,7 +302,7 @@ function Screen1({ onNext }: { onNext: () => void }) {
           className="text-[clamp(0.85rem,2vw,1.05rem)] text-white/50 max-w-lg mx-auto mb-10 leading-relaxed"
         >
           Just as the universe builds complexity from fundamental particles into stars and galaxies,
-          Cosmos Design System composes <strong className="text-white/70">atoms</strong> into <strong className="text-white/70">molecules</strong> into <strong className="text-white/70">organisms</strong> — creating
+          Cosmos Design System composes <strong className="text-white/70">atoms</strong> into <strong className="text-white/70">molecules</strong> into <strong className="text-white/70">organisms</strong>, creating
           a living design universe.
         </motion.p>
 
@@ -423,7 +423,7 @@ function Screen2({ onComplete }: { onComplete: () => void }) {
           className="text-[clamp(0.85rem,2vw,1.05rem)] text-white/50 max-w-lg mx-auto mb-10 leading-relaxed"
         >
           Cosmos gives you production-ready components, adaptive theming, motion
-          primitives, enterprise patterns, and AI-native building blocks — everything
+          primitives, enterprise patterns, and AI-native building blocks, everything
           to ship beautiful products at scale.
         </motion.p>
 

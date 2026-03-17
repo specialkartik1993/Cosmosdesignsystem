@@ -166,23 +166,25 @@ export function ErrorStatesPage() {
         title="Form Validation"
         description="Real-time inline validation with animated error messages and visual feedback."
         delay={0.05}
-        code={`<div className="space-y-2">
-  <Label className={error ? 'text-red-500' : ''}>Email</Label>
-  <div className="relative">
-    <Input
-      className={error ? 'border-red-500 focus-visible:ring-red-500/20' : ''}
-      value={email}
-      onChange={e => setEmail(e.target.value)}
-    />
-    {error && <AlertCircle className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-red-500" />}
-  </div>
-  <AnimatePresence>
-    {error && (
-      <motion.p initial={{ opacity: 0, y: -4, height: 0 }} animate={{ opacity: 1, y: 0, height: 'auto' }} exit={{ opacity: 0, y: -4, height: 0 }}
-        className="text-[12px] text-red-500">{error}</motion.p>
-    )}
-  </AnimatePresence>
-</div>`}
+        code={`import {
+  ErrorState, InlineFieldError, PulsingErrorIcon,
+} from '@cosmos-ds/react';
+// Types: ErrorType ('generic'|'network'|'notFound'|'permission'|'server'|'validation'|'empty'|'timeout')
+
+// Preset error states
+<ErrorState type="notFound" />
+<ErrorState type="network" primaryAction={{ label: 'Retry', onClick: retry }} />
+<ErrorState type="permission" code={403} />
+<ErrorState type="server" code={500} secondaryAction={{ label: 'Go Home', onClick: goHome }} />
+
+// Custom error
+<ErrorState title="Custom" message="Details..." icon={<MyIcon />} size="lg" animated />
+
+// Inline field error (animated)
+<InlineFieldError message="Email is required" />
+
+// Pulsing icon
+<PulsingErrorIcon size="md" />`}
       >
         <form onSubmit={handleFormSubmit} className="max-w-md space-y-4">
           {/* Success banner */}
@@ -712,7 +714,7 @@ useEffect(() => {
                     <p className="text-[13px] text-muted-foreground mb-1">Unable to reach the server</p>
                     <p className="text-[11px] text-muted-foreground/60 mb-5">
                       {retryCount > 0
-                        ? `Attempt ${retryCount} of 3 — ${retryCount >= 2 ? 'Next retry will reconnect' : 'Try again'}`
+                        ? `Attempt ${retryCount} of 3. ${retryCount >= 2 ? 'Next retry will reconnect' : 'Try again'}`
                         : 'Check your internet connection and try again'}
                     </p>
                     <div className="flex gap-2 justify-center">
@@ -740,7 +742,7 @@ useEffect(() => {
               >
                 <ServerCrash className="w-7 h-7 text-amber-500" />
               </motion.div>
-              <h3 className="text-[16px] mb-1" style={{ fontWeight: 700 }}>500 — Server Error</h3>
+              <h3 className="text-[16px] mb-1" style={{ fontWeight: 700 }}>500 Server Error</h3>
               <p className="text-[13px] text-muted-foreground mb-1">Something went wrong on our end</p>
               <p className="text-[11px] text-muted-foreground/60 mb-5">Our team has been notified and is working on a fix</p>
               <div className="flex gap-2 justify-center">
@@ -781,7 +783,7 @@ useEffect(() => {
               <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center mx-auto mb-3">
                 <Ban className="w-5 h-5 text-purple-500" />
               </div>
-              <h3 className="text-[14px] mb-1" style={{ fontWeight: 600 }}>429 — Too Many Requests</h3>
+              <h3 className="text-[14px] mb-1" style={{ fontWeight: 600 }}>429 Too Many Requests</h3>
               <p className="text-[12px] text-muted-foreground mb-3">You've exceeded the rate limit. Try again in 60 seconds.</p>
               <RateLimitTimer />
             </CardContent>
@@ -793,7 +795,7 @@ useEffect(() => {
       {/* 404 CREATIVE */}
       {/* ============================================================= */}
       <Showcase
-        title="404 — Page Not Found"
+        title="404 Page Not Found"
         description="Creative, on-brand 404 page with cosmic theme and helpful navigation."
         delay={0.35}
         code={`<div className="text-center py-16">
@@ -986,7 +988,7 @@ useEffect(() => {
             <motion.div animate={{ opacity: [1, 0.4, 1] }} transition={{ repeat: Infinity, duration: 2 }}>
               <WifiOff className="w-4 h-4 text-amber-500" />
             </motion.div>
-            <span className="text-[12px] text-amber-600 dark:text-amber-400 flex-1" style={{ fontWeight: 500 }}>You're offline — Changes will sync automatically when reconnected</span>
+            <span className="text-[12px] text-amber-600 dark:text-amber-400 flex-1" style={{ fontWeight: 500 }}>You're offline. Changes will sync automatically when reconnected</span>
             <Badge variant="outline" className="text-[10px] border-amber-500/30 text-amber-500">Offline</Badge>
           </motion.div>
 
@@ -998,7 +1000,7 @@ useEffect(() => {
             className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-orange-500/10 border border-orange-500/20"
           >
             <Unplug className="w-4 h-4 text-orange-500" />
-            <span className="text-[12px] text-orange-600 dark:text-orange-400 flex-1" style={{ fontWeight: 500 }}>Some features may be unavailable — We're investigating the issue</span>
+            <span className="text-[12px] text-orange-600 dark:text-orange-400 flex-1" style={{ fontWeight: 500 }}>Some features may be unavailable �� We're investigating the issue</span>
             <Button variant="ghost" size="sm" className="h-6 text-[10px] text-orange-500 hover:text-orange-600">Status Page</Button>
           </motion.div>
 
@@ -1010,7 +1012,7 @@ useEffect(() => {
             className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20"
           >
             <CloudOff className="w-4 h-4 text-blue-500" />
-            <span className="text-[12px] text-blue-600 dark:text-blue-400 flex-1" style={{ fontWeight: 500 }}>Scheduled maintenance in 2 hours — Save your work</span>
+            <span className="text-[12px] text-blue-600 dark:text-blue-400 flex-1" style={{ fontWeight: 500 }}>Scheduled maintenance in 2 hours. Save your work</span>
             <Button variant="ghost" size="sm" className="h-6 text-[10px] text-blue-500 hover:text-blue-600">Learn More</Button>
           </motion.div>
         </div>
@@ -1031,7 +1033,7 @@ function AccessDeniedCard() {
         <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-3">
           <ShieldAlert className="w-5 h-5 text-red-500" />
         </div>
-        <h3 className="text-[14px] mb-1" style={{ fontWeight: 600 }}>403 — Forbidden</h3>
+        <h3 className="text-[14px] mb-1" style={{ fontWeight: 600 }}>403 Forbidden</h3>
         <p className="text-[12px] text-muted-foreground mb-3">You don't have permission to access this resource</p>
         <AnimatePresence mode="wait">
           {requested ? (

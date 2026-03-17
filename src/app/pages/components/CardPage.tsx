@@ -17,7 +17,9 @@ export function CardPage() {
 
   return (
     <ComponentPage title="Card" description="Cards are versatile containers for grouping related content and actions. They create visual hierarchy and organize information.">
-      <Showcase title="Basic Cards" delay={0.05} code={`<Card>
+      <Showcase title="Basic Cards" delay={0.05} code={`import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@cosmos-ds/react';
+
+<Card>
   <CardHeader>
     <CardTitle>Simple Card</CardTitle>
     <CardDescription>A basic card with header and content.</CardDescription>

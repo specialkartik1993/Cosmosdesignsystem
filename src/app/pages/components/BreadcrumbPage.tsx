@@ -8,7 +8,9 @@ export function BreadcrumbPage() {
       title="Breadcrumb"
       description="Breadcrumbs show the navigational path and help users understand their location in the hierarchy."
     >
-      <Showcase title="Basic Breadcrumb" delay={0.1} code={`<Breadcrumb>
+      <Showcase title="Basic Breadcrumb" delay={0.1} code={`import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from '@cosmos-ds/react';
+
+<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem><BreadcrumbLink href="#">Home</BreadcrumbLink></BreadcrumbItem>
     <BreadcrumbSeparator />

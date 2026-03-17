@@ -141,7 +141,7 @@ interface Message {
 const presetConversations: Record<string, { prompt: string; response: string; citations?: { title: string; icon: any }[]; followUps?: string[] }> = {
   'code': {
     prompt: 'How do I create a streaming text component in React?',
-    response: 'Here\'s how to build a streaming text component:\n\n1. Track displayed text in state\n2. Use setInterval to reveal characters at a configurable speed\n3. Show a blinking cursor while streaming\n4. Clean up the interval on unmount\n\nThe key insight is using a ref for the character index — this avoids stale closure issues inside setInterval. Combined with a speed prop (typically 15-25ms per character), you get a natural, conversational feel.',
+    response: 'Here\'s how to build a streaming text component:\n\n1. Track displayed text in state\n2. Use setInterval to reveal characters at a configurable speed\n3. Show a blinking cursor while streaming\n4. Clean up the interval on unmount\n\nThe key insight is using a ref for the character index. This avoids stale closure issues inside setInterval. Combined with a speed prop (typically 15-25ms per character), you get a natural, conversational feel.',
     citations: [
       { title: 'React Docs', icon: BookOpen },
       { title: 'Vercel AI SDK', icon: Zap },
@@ -168,7 +168,7 @@ const presetConversations: Record<string, { prompt: string; response: string; ci
   },
   'a11y': {
     prompt: 'How do I make streaming AI text accessible?',
-    response: 'Accessibility for streaming AI text requires careful attention to several areas:\n\n1. aria-live="polite" on the response container so screen readers announce new content\n2. aria-busy="true" while the response is still streaming\n3. Role="status" or role="log" depending on the chat pattern\n4. Respect prefers-reduced-motion — disable character animation and show full text immediately\n5. Provide a "Stop generating" button that\'s keyboard accessible\n6. Announce completion with a status message when streaming finishes',
+    response: 'Accessibility for streaming AI text requires careful attention to several areas:\n\n1. aria-live="polite" on the response container so screen readers announce new content\n2. aria-busy="true" while the response is still streaming\n3. Role="status" or role="log" depending on the chat pattern\n4. Respect prefers-reduced-motion by disabling character animation and showing full text immediately\n5. Provide a "Stop generating" button that\'s keyboard accessible\n6. Announce completion with a status message when streaming finishes',
     citations: [
       { title: 'WCAG 4.1.3', icon: Shield },
       { title: 'ARIA Live Regions', icon: BookOpen },
@@ -317,7 +317,7 @@ export function AIPlayground() {
               </span>
             </div>
             <p className="text-muted-foreground text-[15px] max-w-2xl leading-relaxed">
-              Experience all Cosmic AI component patterns in a unified demo. Toggle streaming, thinking indicators, citations, confidence scores, and copilot features — then try different conversation presets.
+              Experience all Cosmic AI component patterns in a unified demo. Toggle streaming, thinking indicators, citations, confidence scores, and copilot features, then try different conversation presets.
             </p>
           </div>
         </div>

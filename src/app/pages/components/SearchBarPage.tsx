@@ -48,11 +48,35 @@ function BasicSearch() {
   const [query, setQuery] = useState('');
 
   return (
-    <Showcase title="Basic Search" delay={0.05} code={`<div className="relative">
-  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-  <input className="pl-10 pr-10 ..." placeholder="Search..." value={query} onChange={...} />
-  {query && <button onClick={() => setQuery('')}><X /></button>}
-</div>`}>
+    <Showcase title="Basic Search" delay={0.05} code={`import { SearchBar } from '@cosmos-ds/react';
+// Types: SearchBarProps, SearchSuggestion, SearchBarSize, SearchBarVariant
+
+// Basic
+<SearchBar
+  placeholder="Search components..."
+  onSubmit={(q) => console.log('Search:', q)}
+/>
+
+// With suggestions + recents + trending
+<SearchBar
+  placeholder="Search Cosmos..."
+  suggestions={[
+    { label: 'Button', category: 'Atoms', icon: <Code2 /> },
+    { label: 'Card', category: 'Molecules', icon: <Layers /> },
+  ]}
+  recentSearches={['Color tokens', 'Dark mode']}
+  trendingSearches={['Design tokens', 'AI components']}
+  showShortcut
+  shortcutLabel="⌘K"
+  onSubmit={handleSearch}
+  onSuggestionSelect={handleSelect}
+/>
+
+// Variants: default, filled, ghost, command
+<SearchBar variant="filled" size="lg" />
+
+// Expandable (icon → input)
+<SearchBar expandable />`}>
       <div className="max-w-md">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />

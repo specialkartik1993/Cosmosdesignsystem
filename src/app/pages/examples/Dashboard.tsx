@@ -88,8 +88,20 @@ export function Dashboard() {
       ]);
       setSummary(s);
       setPopular(p);
-      setTrends(t);
-      setCategories(c);
+      // Deduplicate trends by label to prevent recharts duplicate key warnings
+      const seenLabels = new Set<string>();
+      setTrends(t.filter(item => {
+        if (seenLabels.has(item.label)) return false;
+        seenLabels.add(item.label);
+        return true;
+      }));
+      // Deduplicate categories by category key
+      const seenCats = new Set<string>();
+      setCategories(c.filter(item => {
+        if (seenCats.has(item.category)) return false;
+        seenCats.add(item.category);
+        return true;
+      }));
       setEngagement(e);
       setLeaderboard(l);
       if (h) setHealth({ status: h.status, latencyMs: h.latencyMs, version: h.version });
@@ -303,7 +315,7 @@ export function Dashboard() {
           >
             <Card className="h-full">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-[15px]">Page Views — Last 14 Days</CardTitle>
+                <CardTitle className="text-[15px]">Page Views: Last 14 Days</CardTitle>
                 <span className="text-[11px] text-muted-foreground px-2 py-0.5 rounded-full bg-muted/50">
                   {trends.reduce((sum, t) => sum + t.views, 0).toLocaleString()} total
                 </span>
@@ -311,11 +323,12 @@ export function Dashboard() {
               <CardContent>
                 {trends.some(t => t.views > 0) ? (
                   <ResponsiveContainer width="100%" height={240}>
-                    <AreaChart data={trends}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                      <XAxis dataKey="label" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" />
-                      <YAxis tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" allowDecimals={false} />
+                    <AreaChart data={trends} id="dashboard-area-trend">
+                      <CartesianGrid key="grid" strokeDasharray="3 3" stroke="var(--border)" />
+                      <XAxis key="xaxis" dataKey="label" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" />
+                      <YAxis key="yaxis" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" allowDecimals={false} />
                       <Tooltip
+                        key="tooltip"
                         contentStyle={{
                           backgroundColor: 'var(--card)',
                           border: '1px solid var(--border)',
@@ -324,7 +337,7 @@ export function Dashboard() {
                         }}
                         formatter={(value: number) => [value.toLocaleString(), 'Views']}
                       />
-                      <Area type="monotone" dataKey="views" stroke="#6366f1" fill="#6366f1" fillOpacity={0.1} strokeWidth={2} />
+                      <Area key="area" type="monotone" dataKey="views" stroke="#6366f1" fill="#6366f1" fillOpacity={0.1} strokeWidth={2} />
                     </AreaChart>
                   </ResponsiveContainer>
                 ) : (
@@ -355,8 +368,9 @@ export function Dashboard() {
                   <div className="flex flex-col gap-3">
                     <div className="flex justify-center">
                       <ResponsiveContainer width="100%" height={120}>
-                        <PieChart>
+                        <PieChart id="dashboard-pie-category">
                           <Pie
+                            key="pie"
                             data={categories}
                             dataKey="views"
                             nameKey="label"
@@ -367,14 +381,15 @@ export function Dashboard() {
                             strokeWidth={2}
                             stroke="var(--card)"
                           >
-                            {categories.map((entry) => (
+                            {categories.map((entry, idx) => (
                               <Cell
-                                key={entry.category}
+                                key={`cell-${entry.category ?? idx}`}
                                 fill={CATEGORY_COLORS[entry.category] || '#94a3b8'}
                               />
                             ))}
                           </Pie>
                           <Tooltip
+                            key="tooltip"
                             contentStyle={{
                               backgroundColor: 'var(--card)',
                               border: '1px solid var(--border)',
@@ -609,7 +624,7 @@ export function Dashboard() {
                   ))}
                 </div>
               ) : (
-                <EmptyPanel message="No feedback collected yet — rate components using the thumbs up/down buttons" />
+                <EmptyPanel message="No feedback collected yet. Rate components using the thumbs up/down buttons" />
               )}
             </CardContent>
           </Card>
@@ -658,9 +673,10 @@ export function Dashboard() {
                         Last 7 days
                       </p>
                       <ResponsiveContainer width="100%" height={100}>
-                        <BarChart data={trends.slice(-7)}>
-                          <XAxis dataKey="label" tick={{ fontSize: 10 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
+                        <BarChart data={trends.slice(-7)} id="dashboard-bar-recent">
+                          <XAxis key="xaxis" dataKey="label" tick={{ fontSize: 10 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
                           <Tooltip
+                            key="tooltip"
                             contentStyle={{
                               backgroundColor: 'var(--card)',
                               border: '1px solid var(--border)',
@@ -669,7 +685,7 @@ export function Dashboard() {
                             }}
                             formatter={(value: number) => [value, 'views']}
                           />
-                          <Bar dataKey="views" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                          <Bar key="bar" dataKey="views" fill="#6366f1" radius={[4, 4, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>

@@ -418,22 +418,45 @@ export function AIChatPage() {
       badge="AI"
     >
       <Showcase
-        title="Full Chat Interface"
-        description="Complete chat window with message bubbles, streaming responses, typing indicators, model selection, and action buttons."
-        delay={0.1}
-        code={`<ChatWindow
-  model="gpt-4o"
-  onSend={(msg) => handleSend(msg)}
-  streaming={true}
-  showActions={true}
-/>`}
+        title="Chat Interface"
+        delay={0.05}
+        code={`import {
+  ChatBubble, ChatInput, TypingIndicator,
+  StreamingText, useChat,
+} from '@cosmos-ds/react';
+
+const { messages, status, send, addAssistantMessage, setFeedback } = useChat();
+
+<div className="flex flex-col h-[500px]">
+  <div className="flex-1 overflow-y-auto space-y-4 p-4">
+    {messages.map(msg => (
+      <ChatBubble
+        key={msg.id}
+        message={msg}
+        avatar={msg.role === 'assistant' ? <AIAvatar /> : <UserAvatar />}
+        onFeedback={setFeedback}
+        onRegenerate={(id) => console.log('regen', id)}
+      />
+    ))}
+    {status === 'sending' && <TypingIndicator />}
+  </div>
+  <ChatInput
+    onSubmit={(text) => {
+      send(text);
+      // simulate AI reply
+      setTimeout(() => addAssistantMessage('Response...'), 1000);
+    }}
+    showAttach
+    showVoice
+  />
+</div>`}
       >
         <ChatWindow />
       </Showcase>
 
       <Showcase
         title="Thinking Indicator"
-        description="Multi-step thinking animation that shows the AI processing pipeline — analyzing, searching, and generating."
+        description="Multi-step thinking animation that shows the AI processing pipeline: analyzing, searching, and generating."
         delay={0.2}
         code={`<ThinkingIndicator
   steps={['Analyzing...', 'Searching...', 'Generating...']}

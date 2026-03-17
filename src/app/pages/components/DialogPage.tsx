@@ -13,7 +13,9 @@ export function DialogPage() {
       title="Dialog & Modal"
       description="Dialogs inform users about a task and can contain critical information, require decisions, or involve multiple tasks."
     >
-      <Showcase title="Basic Dialog" delay={0.1} code={`<Dialog>
+      <Showcase title="Basic Dialog" delay={0.1} code={`import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@cosmos-ds/react';
+
+<Dialog>
   <DialogTrigger asChild>
     <Button>Open Dialog</Button>
   </DialogTrigger>

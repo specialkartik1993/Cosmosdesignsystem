@@ -56,7 +56,9 @@ export function NavigationPage() {
   return (
     <ComponentPage title="Navigation" description="Navigation patterns help users move through the application, providing structure, wayfinding, and context.">
       {/* ====== TOP NAV ====== */}
-      <Showcase title="Top Navigation Bar" description="Full-featured top navigation with search, notifications, and user menu." delay={0.05} code={`<header className="flex items-center justify-between px-4 py-2.5 bg-card border-b">
+      <Showcase title="Top Navigation Bar" description="Full-featured top navigation with search, notifications, and user menu." delay={0.05} code={`import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from '@cosmos-ds/react';
+
+<header className="flex items-center justify-between px-4 py-2.5 bg-card border-b">
   <div className="flex items-center gap-6">
     <div className="flex items-center gap-2">
       <Sparkles className="w-5 h-5 text-primary" />
@@ -82,10 +84,9 @@ export function NavigationPage() {
                 {['Dashboard', 'Projects', 'Team', 'Reports'].map(item => (
                   <motion.button
                     key={item}
-                    whileHover={{ backgroundColor: 'var(--accent)' }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => setActiveTopNav(item)}
-                    className={`relative px-3 py-1.5 rounded-lg text-[13px] transition-colors cursor-pointer ${activeTopNav === item ? 'text-foreground' : 'text-muted-foreground'}`}
+                    className={`relative px-3 py-1.5 rounded-lg text-[13px] transition-colors cursor-pointer hover:bg-accent ${activeTopNav === item ? 'text-foreground' : 'text-muted-foreground'}`}
                     style={{ fontWeight: activeTopNav === item ? 600 : 400 }}
                   >
                     {item}

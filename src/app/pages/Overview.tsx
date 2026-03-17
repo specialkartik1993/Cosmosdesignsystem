@@ -86,7 +86,7 @@ function AnimatedCounter({ value, suffix = '', prefix = '' }: { value: number; s
 /* ================================================================== */
 
 const heroStats = [
-  { label: 'Components', value: 60, suffix: '+', icon: Component, gradient: 'from-indigo-500 to-blue-500' },
+  { label: 'Components', value: 64, suffix: '+', icon: Component, gradient: 'from-indigo-500 to-blue-500' },
   { label: 'Design Tokens', value: 200, suffix: '+', icon: Code2, gradient: 'from-purple-500 to-pink-500' },
   { label: 'Screen Patterns', value: 25, suffix: '+', icon: LayoutGrid, gradient: 'from-amber-500 to-orange-500' },
   { label: 'A11y Score', value: 98, suffix: '%', icon: Shield, gradient: 'from-emerald-500 to-teal-500' },
@@ -102,13 +102,13 @@ const enterpriseFeatures = [
 ];
 
 const atomicLevels = [
-  { icon: Circle, title: 'Atoms', count: 11, desc: 'Foundational building blocks', color: 'text-blue-500', bg: 'bg-blue-500/10', border: 'border-blue-500/20', items: ['Button', 'Input', 'Badge', 'Avatar', 'Toggle', 'Checkbox', 'Tooltip', 'Skeleton', 'Separator', 'Slider', 'Progress'], path: '/components/button' },
-  { icon: Shapes, title: 'Molecules', count: 10, desc: 'Composed component groups', color: 'text-purple-500', bg: 'bg-purple-500/10', border: 'border-purple-500/20', items: ['Card', 'Alert', 'Tabs', 'Dropdown', 'Select', 'Dialog', 'Popover', 'Breadcrumb', 'Pagination', 'Accordion'], path: '/components/card' },
-  { icon: Blocks, title: 'Organisms', count: 5, desc: 'Complex page-level patterns', color: 'text-amber-500', bg: 'bg-amber-500/10', border: 'border-amber-500/20', items: ['Data Table', 'Navigation', 'Form Patterns', 'Charts', 'Calendar'], path: '/components/table' },
+  { icon: Circle, title: 'Atoms', count: 17, desc: 'Foundational building blocks', color: 'text-blue-500', bg: 'bg-blue-500/10', border: 'border-blue-500/20', items: ['Button', 'Input', 'Badge', 'Avatar', 'Toggle', 'Checkbox', 'Tooltip', 'Skeleton', 'Separator', 'Slider', 'Progress', 'Label', 'Textarea', 'RadioGroup', 'Switch', 'AspectRatio', 'ToggleGroup'], path: '/components/button' },
+  { icon: Shapes, title: 'Molecules', count: 20, desc: 'Composed component groups', color: 'text-purple-500', bg: 'bg-purple-500/10', border: 'border-purple-500/20', items: ['Card', 'Alert', 'Tabs', 'Dropdown', 'Select', 'Dialog', 'Popover', 'Breadcrumb', 'Pagination', 'Accordion', 'Sheet', 'Drawer', 'Command', 'HoverCard', 'ContextMenu', 'Menubar', 'ScrollArea', 'Collapsible', 'InputOTP', 'Sonner'], path: '/components/card' },
+  { icon: Blocks, title: 'Organisms', count: 5, desc: 'Complex page-level patterns', color: 'text-amber-500', bg: 'bg-amber-500/10', border: 'border-amber-500/20', items: ['Table', 'Carousel', 'Timeline', 'Charts', 'Sidebar'], path: '/components/table' },
 ];
 
 const adoptionTimeline = [
-  { version: 'v1.0', date: 'Jan 2026', title: 'Initial Release', desc: '40+ components, light/dark themes, Figma kit', status: 'released' },
+  { version: 'v1.0', date: 'Jan 2026', title: 'Initial Release', desc: '64 components, light/dark themes, Figma kit', status: 'released' },
   { version: 'v1.1', date: 'Mar 2026', title: 'Playground & A11y', desc: 'Component Playground, Accessibility audit, Contrast Checker', status: 'released' },
   { version: 'v1.2', date: 'Q2 2026', title: 'Enterprise Pack', desc: 'Data grid, File upload, Rich text editor, Date range picker', status: 'upcoming' },
   { version: 'v2.0', date: 'Q3 2026', title: 'Platform Expansion', desc: 'React Native components, Vue adapter, Web Components', status: 'planned' },
@@ -118,7 +118,7 @@ const trustedBy = ['Acme Corp', 'NovaTech', 'Quantum Labs', 'Apex Digital', 'Ver
 
 const quickLinks = [
   { icon: Paintbrush, title: 'Foundations', desc: 'Colors, typography, spacing', path: '/foundations/colors', gradient: 'from-blue-500 to-cyan-400' },
-  { icon: Package, title: 'Components', desc: '26 components across 3 tiers', path: '/components/button', gradient: 'from-purple-500 to-pink-400' },
+  { icon: Package, title: 'Components', desc: '64 components across 6 tiers', path: '/components/button', gradient: 'from-purple-500 to-pink-400' },
   { icon: Zap, title: 'Interactions', desc: 'Parallax, tilt, scroll triggers', path: '/interactions/parallax', gradient: 'from-amber-500 to-orange-400' },
   { icon: Wand2, title: 'Cosmic AI', desc: 'Chat, copilot, smart widgets', path: '/ai/chat', gradient: 'from-violet-500 to-indigo-400' },
 ];
@@ -456,7 +456,7 @@ function EnterpriseSection() {
           badgeIcon={Building2}
           title="Engineered for"
           highlight="scale"
-          description="From startups to Fortune 500s — reliability, accessibility, and performance at every level."
+          description="From startups to Fortune 500s. Reliability, accessibility, and performance at every level."
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -964,7 +964,7 @@ function BottomCTAInner() {
           className="flex flex-wrap items-center justify-center gap-6 mt-14 text-[12px] text-muted-foreground"
         >
           {[
-            { icon: Package, label: 'MIT Licensed' },
+            { icon: Package, label: 'Open Package' },
             { icon: Heart, label: 'Open Source' },
             { icon: Star, label: 'TypeScript First' },
             { icon: Shield, label: 'WCAG 2.1 AA' },
@@ -1060,7 +1060,7 @@ export function Overview() {
           badgeIcon={Layers}
           title="Built on atomic"
           highlight="design"
-          description="Every component fits into a clear hierarchy — from simple atoms to complex organisms — enabling infinite composability."
+          description="Every component fits into a clear hierarchy, from simple atoms to complex organisms, enabling infinite composability."
         />
         <AtomicReveal />
       </section>

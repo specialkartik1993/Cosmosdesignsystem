@@ -22,7 +22,7 @@ function CopilotPanel() {
   ]);
 
   const suggestions = [
-    { type: 'a11y', text: 'Add aria-label for icon-only buttons', severity: 'warning' },
+    { type: 'a11y', text: 'Add aria-label for icon-only buttons', severity: 'warning', autoFixable: true },
     { type: 'perf', text: 'Memoize onClick handler with useCallback', severity: 'info' },
     { type: 'style', text: 'Consider adding focus-visible ring styles', severity: 'info' },
   ];
@@ -418,18 +418,34 @@ export function AICopilotPage() {
   return (
     <ComponentPage
       title="Cosmic Copilot"
-      description="Copilot panel patterns with inline code suggestions, contextual hints, accessibility auditing, and an AI command palette — designed for IDE-like Cosmic AI integration."
+      description="Copilot panel patterns with inline code suggestions, contextual hints, accessibility auditing, and an AI command palette. Designed for IDE-like Cosmic AI integration."
       badge="AI"
     >
       <Showcase
         title="Copilot Panel"
         description="Split-pane layout with a code editor and docked copilot sidebar featuring chat, hints, and accessibility audit tabs."
         delay={0.1}
-        code={`<CopilotPanel
-  position="right"
-  tabs={['chat', 'suggestions', 'audit']}
-  context={currentFile}
-  onSuggestionApply={(s) => applySuggestion(s)}
+        code={`import {
+  CopilotPanel,
+  CopilotSuggestionCard,
+  CopilotAuditList,
+} from '@cosmos-ds/react';
+
+<CopilotPanel
+  isOpen={true}
+  onToggle={() => setOpen(!open)}
+  activeTab="chat"
+  onTabChange={setTab}
+  messages={[{ role: 'assistant', content: 'I noticed...' }]}
+  suggestions={[
+    { type: 'a11y', text: 'Add aria-label', severity: 'warning', autoFixable: true },
+    { type: 'perf', text: 'Memoize handler', severity: 'info' },
+  ]}
+  auditItems={[
+    { label: 'WCAG AA', status: 'pass', detail: 'Contrast OK' },
+    { label: 'Keyboard Nav', status: 'warning', detail: 'Missing focus ring' },
+  ]}
+  onSendMessage={(msg) => handleChat(msg)}
 />`}
       >
         <CopilotPanel />
@@ -437,7 +453,7 @@ export function AICopilotPage() {
 
       <Showcase
         title="Inline Code Suggestions"
-        description="Ghost-text suggestions that appear inline in the editor — accept with Tab, dismiss, or regenerate."
+        description="Ghost-text suggestions that appear inline in the editor. Accept with Tab, dismiss, or regenerate."
         delay={0.2}
         code={`<InlineSuggestion
   code={currentCode}

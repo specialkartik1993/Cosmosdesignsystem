@@ -12,7 +12,9 @@ export function PopoverPage() {
       title="Popover"
       description="Popovers display rich content in a floating panel anchored to a trigger element."
     >
-      <Showcase title="Basic Popover" delay={0.1} code={`<Popover>
+      <Showcase title="Basic Popover" delay={0.1} code={`import { Popover, PopoverTrigger, PopoverContent } from '@cosmos-ds/react';
+
+<Popover>
   <PopoverTrigger asChild>
     <Button variant="outline">
       <Settings className="w-4 h-4 mr-2" /> Open Popover

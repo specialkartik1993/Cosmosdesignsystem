@@ -37,6 +37,7 @@ const ALL_PATHS = [
   "/components/status", "/components/search-bar", "/components/notification",
   "/components/table", "/components/navigation", "/components/form",
   "/components/charts", "/components/calendar",
+  "/components/drawer",
   "/enterprise/data-grid", "/enterprise/file-upload",
   "/enterprise/rich-text-editor", "/enterprise/date-range-picker",
   "/interactions/interactive-cards", "/interactions/scroll-triggered",

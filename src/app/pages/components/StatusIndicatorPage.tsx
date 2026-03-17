@@ -117,14 +117,43 @@ export function StatusIndicatorPage() {
       {/* ============================================================= */}
       <Showcase
         title="Status Dots"
-        description="Pulsing status indicators for presence, connection state, and severity levels."
+        description="Pulsing dot indicators for real-time status across services, users, and infrastructure."
         delay={0.05}
-        code={`<StatusDot status="online" />
-<StatusDot status="offline" />
-<StatusDot status="warning" />
+        code={`import {
+  StatusDot,
+  StatusBadge,
+  UptimeBar,
+  TrendIndicator,
+  SystemHealthCard,
+} from '@cosmos-ds/react';
+// Types: StatusType, StatusSize, TrendDirection, ServiceHealth
+
+// Pulsing dot
+<StatusDot status="online" size="md" showLabel />
 <StatusDot status="error" />
-<StatusDot status="idle" />
-<StatusDot status="busy" />`}
+<StatusDot status="warning" />
+
+// Badge with icon + label
+<StatusBadge status="online" />
+<StatusBadge status="error" label="Service Down" />
+
+// Uptime bar (90-day visualization)
+<UptimeBar
+  days={['up','up','degraded','up','down','up',...]}
+  uptime={99.9}
+  label="API Gateway"
+/>
+
+// Trend indicator
+<TrendIndicator value="$12.4K" direction="up" percentage="+12.5%" />
+
+// System health card
+<SystemHealthCard
+  services={[
+    { name: 'API', status: 'online', latency: '45ms', uptime: 99.99 },
+    { name: 'Database', status: 'warning', latency: '120ms', uptime: 99.8 },
+  ]}
+/>`}
       >
         <div className="space-y-6">
           {/* Basic dots */}

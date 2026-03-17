@@ -528,7 +528,7 @@ export function ParallaxPage() {
   return (
     <ComponentPage
       title="Parallax Motion"
-      description="Depth-creating scroll and mouse-driven animations using Motion's useScroll, useTransform, and useSpring. Multi-layer parallax, 3D tilt, image parallax, horizontal marquee, and more — all production-ready with ClientOnly mount guards."
+      description="Depth-creating scroll and mouse-driven animations using Motion's useScroll, useTransform, and useSpring. Multi-layer parallax, 3D tilt, image parallax, horizontal marquee, and more. All production-ready with ClientOnly mount guards."
     >
 
       {/* 1. Multi-Layer Hero */}
@@ -536,30 +536,41 @@ export function ParallaxPage() {
         title="Multi-Layer Depth Parallax"
         description="Three layers move at different speeds (background, midground, foreground) to create a cinematic depth effect. Stars, nebula, mountains, and floating particles."
         delay={0.05}
-        code={`import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+        code={`import {
+  ParallaxContainer, ParallaxLayer,
+  ParallaxHero, FloatingElement,
+} from '@cosmos-ds/react';
 
-function MultiLayerParallax() {
-  const containerRef = useScrollContainerRef(); // finds <main>
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    container: containerRef, // ← required for non-window scroll!
-    offset: ['start end', 'end start'],
-  });
+// Multi-layer depth parallax
+<ParallaxContainer>
+  <ParallaxLayer speed={0.3}>  {/* Background - slow */}
+    <img src="stars.jpg" />
+  </ParallaxLayer>
+  <ParallaxLayer speed={0.15}> {/* Midground */}
+    <Mountains />
+  </ParallaxLayer>
+  <ParallaxLayer speed={-0.05}> {/* Foreground - reverse */}
+    <Content />
+  </ParallaxLayer>
+</ParallaxContainer>
 
-  const bgY  = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-  const midY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
-  const fgY  = useTransform(scrollYProgress, [0, 1], ['0%', '-5%']);
+// Full-screen parallax hero
+<ParallaxHero
+  backgroundImage="https://images.unsplash.com/..."
+  backgroundSpeed={0.5}
+  overlay="linear-gradient(to bottom, transparent, black)"
+>
+  <h1>Hero Content</h1>
+</ParallaxHero>
 
-  return (
-    <div ref={ref} className="relative overflow-hidden h-[400px]">
-      <motion.div style={{ y: bgY }}>  {/* Stars */}   </motion.div>
-      <motion.div style={{ y: midY }}> {/* Mountains */} </motion.div>
-      <motion.div style={{ y: fgY }}>  {/* Ground */}   </motion.div>
-    </div>
-  );
-}`}
+// Floating element (mouse-tracking or auto-float)
+<FloatingElement amplitude={10} duration={3}>
+  <Icon />
+</FloatingElement>
+
+<FloatingElement mouseTracking mouseStrength={15}>
+  <Card>Follows cursor</Card>
+</FloatingElement>`}
       >
         <MultiLayerParallax />
       </Showcase>
@@ -567,7 +578,7 @@ function MultiLayerParallax() {
       {/* 2. Depth Hero */}
       <Showcase
         title="Zoom & Fade Hero"
-        description="Background zooms in, overlay darkens, and content fades up as you scroll — a classic cinematic parallax hero pattern."
+        description="Background zooms in, overlay darkens, and content fades up as you scroll. A classic cinematic parallax hero pattern."
         delay={0.08}
         code={`function DepthHero() {
   const containerRef = useScrollContainerRef();
@@ -647,7 +658,7 @@ function MultiLayerParallax() {
       {/* 4. Mouse 3D Tilt */}
       <Showcase
         title="Mouse-Driven 3D Tilt"
-        description="Cards respond to mouse position with perspective-based 3D rotation, spring physics, and a glare/shine effect. No scroll needed — pure pointer interaction."
+        description="Cards respond to mouse position with perspective-based 3D rotation, spring physics, and a glare/shine effect. No scroll needed, pure pointer interaction."
         delay={0.13}
         code={`function TiltCard({ children }) {
   const ref = useRef(null);
@@ -874,7 +885,7 @@ function ScrollRevealCard({ children, threshold, scrollProgress }) {
             },
             {
               title: 'Spring Physics',
-              desc: 'Wrap raw useTransform values in useSpring for smoother animations. Tune stiffness (100-300) and damping (20-40) for different feels — lower stiffness = more bounce.',
+              desc: 'Wrap raw useTransform values in useSpring for smoother animations. Tune stiffness (100-300) and damping (20-40) for different feels. Lower stiffness = more bounce.',
               badge: 'Recommended',
               badgeColor: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
             },

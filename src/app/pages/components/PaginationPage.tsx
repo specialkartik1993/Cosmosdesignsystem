@@ -13,7 +13,9 @@ export function PaginationPage() {
       title="Pagination"
       description="Pagination helps users navigate through large sets of content split across multiple pages."
     >
-      <Showcase title="Basic Pagination" delay={0.1} code={`<Pagination>
+      <Showcase title="Basic Pagination" delay={0.1} code={`import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from '@cosmos-ds/react';
+
+<Pagination>
   <PaginationContent>
     <PaginationItem><PaginationPrevious href="#" /></PaginationItem>
     <PaginationItem><PaginationLink href="#">1</PaginationLink></PaginationItem>

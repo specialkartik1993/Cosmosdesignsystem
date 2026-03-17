@@ -26,7 +26,9 @@ export function ButtonPage() {
       title="Button"
       description="Buttons trigger actions and events. They communicate what will happen when the user interacts with them."
     >
-      <Showcase title="Variants" description="All available button styles for different contexts and emphasis levels." delay={0.05} code={`<Button>Default</Button>
+      <Showcase title="Variants" description="All available button styles for different contexts and emphasis levels." delay={0.05} code={`import { Button } from '@cosmos-ds/react';
+
+<Button>Default</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="destructive">Destructive</Button>
 <Button variant="outline">Outline</Button>
@@ -91,9 +93,9 @@ export function ButtonPage() {
             Success Action
           </motion.button>
           <motion.button
-            whileHover={{ scale: 1.03, backgroundColor: 'var(--primary)', color: 'var(--primary-foreground)' }}
+            whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="px-6 py-2.5 rounded-xl border-2 border-primary text-primary bg-transparent text-[14px] transition-all cursor-pointer"
+            className="px-6 py-2.5 rounded-xl border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-primary-foreground text-[14px] transition-all cursor-pointer"
             style={{ fontWeight: 600 }}
           >
             Outlined Bold

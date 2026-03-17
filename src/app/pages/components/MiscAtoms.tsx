@@ -15,7 +15,9 @@ export function TooltipPage() {
       title="Tooltip"
       description="Tooltips display informative text when users hover over or focus on an element."
     >
-      <Showcase title="Basic Tooltips" delay={0.1} code={`<TooltipProvider>
+      <Showcase title="Basic Tooltips" delay={0.1} code={`import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent, Separator, Skeleton, AspectRatio, ScrollArea, Progress } from '@cosmos-ds/react';
+
+<TooltipProvider>
   <Tooltip>
     <TooltipTrigger asChild>
       <Button variant="outline">Hover me</Button>

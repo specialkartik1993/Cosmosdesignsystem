@@ -682,7 +682,7 @@ function ContrastCheckerTab() {
               <div className="flex items-center gap-2 mb-4">
                 <Wand2 className="w-4 h-4 text-primary" />
                 <h3 className="text-[13px]" style={{ fontWeight: 600 }}>Suggested Corrections</h3>
-                <span className="text-[11px] text-muted-foreground">Hue &amp; saturation preserved — only lightness adjusted</span>
+                <span className="text-[11px] text-muted-foreground">Hue &amp; saturation preserved, only lightness adjusted</span>
               </div>
               <div className="grid sm:grid-cols-2 gap-3">
                 {suggestions.map((s, i) => {
@@ -1106,7 +1106,7 @@ function AIAccessibilityTab() {
     { label: 'Model Selector', status: 'pass' as const, wcag: '4.1.2', detail: 'Model selector uses radio group semantics with aria-checked and descriptive labels for each model.' },
     { label: 'Prompt Input Label', status: 'pass' as const, wcag: '3.3.2', detail: 'The chat input has an associated visually-hidden label: "Type your message to the AI assistant".' },
     { label: 'Copilot Panel Toggle', status: 'pass' as const, wcag: '4.1.2', detail: 'Copilot sidebar toggle uses aria-expanded and aria-controls to communicate panel state.' },
-    { label: 'Inline Suggestion Announcements', status: 'warning' as const, wcag: '4.1.3', detail: 'Ghost-text code suggestions need aria-live announcements when they appear. Currently visual-only — being addressed.' },
+    { label: 'Inline Suggestion Announcements', status: 'warning' as const, wcag: '4.1.3', detail: 'Ghost-text code suggestions need aria-live announcements when they appear. Currently visual-only, being addressed.' },
     { label: 'Token Usage Meter', status: 'pass' as const, wcag: '1.1.1', detail: 'Token usage bar uses role="meter" with aria-valuenow and a text fallback showing "2096 of 4096 tokens used".' },
   ];
   const passCount = aiAuditItems.filter(d => d.status === 'pass').length;
@@ -1137,7 +1137,7 @@ function AIAccessibilityTab() {
     { name: 'Cosmic Copilot Panel', category: 'Cosmic AI', features: [
       { feature: 'Panel toggle state', supported: true, detail: 'Toggle button uses aria-expanded and aria-controls for sidebar' },
       { feature: 'Tab navigation', supported: true, detail: 'Chat/Hints/Audit tabs use role="tablist" with arrow key navigation' },
-      { feature: 'Inline suggestion ghost text', supported: false, detail: 'Ghost-text suggestions need aria-live announcements — in progress' },
+      { feature: 'Inline suggestion ghost text', supported: false, detail: 'Ghost-text suggestions need aria-live announcements, in progress' },
       { feature: 'Accept/Dismiss actions', supported: true, detail: 'Keyboard-accessible with descriptive aria-labels on each action' },
       { feature: 'Audit results list', supported: true, detail: 'Pass/warning status conveyed via both icon and text, not color alone' },
     ]},

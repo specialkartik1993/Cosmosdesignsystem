@@ -36,6 +36,7 @@ import { NavigationPage } from './pages/components/NavigationPage';
 import { FormPage } from './pages/components/FormPage';
 import { ChartsPage } from './pages/components/ChartsPage';
 import { CalendarPage } from './pages/components/CalendarPage';
+import { DrawerSheetPage } from './pages/components/DrawerSheetPage';
 import { Dashboard } from './pages/examples/Dashboard';
 import { Animations } from './pages/examples/Animations';
 import { Playground } from './pages/examples/Playground';
@@ -61,6 +62,7 @@ import { AIWidgetsPage } from './pages/ai/AIWidgetsPage';
 import { FigmaPlugin } from './pages/examples/FigmaPlugin';
 import { PluginGuide } from './pages/PluginGuide';
 import { NotFound } from './pages/NotFound';
+import { ComingSoon } from './pages/ComingSoon';
 
 export const router = createBrowserRouter([
   {
@@ -70,6 +72,7 @@ export const router = createBrowserRouter([
       { index: true, Component: Overview },
       { path: 'installation', Component: Installation },
       // { path: 'changelog', Component: Changelog }, // Coming soon
+      { path: 'changelog', Component: ComingSoon },
       // Foundations
       { path: 'foundations/colors', Component: Colors },
       { path: 'foundations/typography', Component: Typography },
@@ -81,6 +84,8 @@ export const router = createBrowserRouter([
       { path: 'theming', Component: Theming },
       // { path: 'figma', Component: FigmaIntegration }, // Coming soon
       // { path: 'figma/plugin-guide', Component: PluginGuide }, // Coming soon
+      { path: 'figma', Component: ComingSoon },
+      { path: 'figma/plugin-guide', Component: ComingSoon },
       { path: 'api', Component: ApiReference },
       // Atoms
       { path: 'components/button', Component: ButtonPage },
@@ -94,6 +99,7 @@ export const router = createBrowserRouter([
       { path: 'components/separator', Component: SeparatorPage },
       { path: 'components/slider', Component: SliderPage },
       { path: 'components/progress', Component: ProgressPage },
+      { path: 'components/icon-button', Component: ComingSoon },
       // Molecules
       { path: 'components/card', Component: CardPage },
       { path: 'components/alert', Component: AlertPage },
@@ -118,6 +124,7 @@ export const router = createBrowserRouter([
       { path: 'components/form', Component: FormPage },
       { path: 'components/charts', Component: ChartsPage },
       { path: 'components/calendar', Component: CalendarPage },
+      { path: 'components/drawer', Component: DrawerSheetPage },
       // Enterprise
       { path: 'enterprise/data-grid', Component: DataGridPage },
       { path: 'enterprise/file-upload', Component: FileUploadPage },
@@ -139,7 +146,7 @@ export const router = createBrowserRouter([
       { path: 'examples/animations', Component: Animations },
       { path: 'examples/playground', Component: Playground },
       { path: 'examples/ai-playground', Component: AIPlayground },
-      { path: 'examples/figma-plugin', Component: FigmaPlugin },
+      { path: 'examples/figma-plugin', Component: ComingSoon },
       // Accessibility
       { path: 'accessibility', Component: AccessibilityPage },
       // 404

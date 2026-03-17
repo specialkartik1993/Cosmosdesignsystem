@@ -12,6 +12,7 @@ import {
 import { CosmicAIIcon } from './CosmicAIIcon';
 import { CosmosLogoMark, CosmosWordmark } from './CosmosLogo';
 import { usePageAnalytics } from '../lib/usePageAnalytics';
+import { useDesignTheme } from '../context/DesignThemeContext';
 
 const navSections = [
   {
@@ -48,7 +49,7 @@ const navSections = [
   {
     title: 'Atoms',
     icon: Circle,
-    badge: '13',
+    badge: '17',
     items: [
       { label: 'Button', path: '/components/button' },
       { label: 'Input', path: '/components/input' },
@@ -68,7 +69,7 @@ const navSections = [
   {
     title: 'Molecules',
     icon: Shapes,
-    badge: '16',
+    badge: '20',
     items: [
       { label: 'Card', path: '/components/card' },
       { label: 'Alert & Toast', path: '/components/alert' },
@@ -85,7 +86,7 @@ const navSections = [
       { label: 'Status Indicators', path: '/components/status', badge: 'NEW' },
       { label: 'Search Bar', path: '/components/search-bar', badge: 'NEW' },
       { label: 'Notification', path: '/components/notification', badge: 'NEW' },
-      { label: 'Drawer & Sheet', path: '/components/drawer', comingSoon: true },
+      { label: 'Drawer & Sheet', path: '/components/drawer' },
     ]
   },
   {
@@ -142,7 +143,7 @@ const navSections = [
       { label: 'Animations', path: '/examples/animations' },
       { label: 'Playground', path: '/examples/playground' },
       { label: 'Cosmic AI Playground', path: '/examples/ai-playground', badge: 'NEW' },
-      { label: 'Figma Plugin', path: '/examples/figma-plugin', badge: 'NEW' },
+      { label: 'Figma Plugin', path: '/examples/figma-plugin', comingSoon: true },
     ]
   },
   {
@@ -215,9 +216,18 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
 
                         if (isComingSoon) {
                           return (
-                            <div
+                            <NavLink
                               key={item.path}
-                              className="block px-2.5 py-1.5 rounded-md text-[13px] text-muted-foreground/50 cursor-default select-none"
+                              to={item.path}
+                              onClick={() => onNavClick?.()}
+                              className={({ isActive }) =>
+                                `group/item block px-2.5 py-1.5 rounded-md text-[13px] transition-all duration-200 ${
+                                  isActive
+                                    ? 'text-muted-foreground/70 bg-muted/30'
+                                    : 'text-muted-foreground/50 hover:text-muted-foreground/70 hover:bg-muted/20'
+                                }`
+                              }
+                              style={{ fontWeight: 400 }}
                             >
                               <span className="flex items-center">
                                 {item.label}
@@ -225,7 +235,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
                                   SOON
                                 </span>
                               </span>
-                            </div>
+                            </NavLink>
                           );
                         }
 
@@ -305,7 +315,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
         </a>
         <div className="flex items-center justify-center gap-1.5 text-[10px] text-muted-foreground">
           <CosmosLogoMark size={12} className="text-muted-foreground opacity-50" />
-          <span>Cosmos DS · MIT Licensed</span>
+          <span>Cosmos DS</span>
         </div>
       </div>
     </div>
@@ -314,6 +324,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
 
 export function Layout() {
   const { theme, toggleTheme } = useTheme();
+  const { isLivePreview, activePalette, activeCombo } = useDesignTheme();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -437,6 +448,19 @@ export function Layout() {
             >
               <Search className="w-4.5 h-4.5" />
             </button>
+            {/* Live Preview indicator */}
+            {isLivePreview && (
+              <NavLink
+                to="/foundations/colors"
+                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-primary/10 text-primary text-[11px] hover:bg-primary/15 transition-colors"
+                style={{ fontWeight: 500 }}
+              >
+                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span>{activePalette.name}</span>
+                <span className="text-primary/50">·</span>
+                <span>{activeCombo.name.split(' + ')[0]}</span>
+              </NavLink>
+            )}
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg hover:bg-accent/50 transition-all duration-300 cursor-pointer"

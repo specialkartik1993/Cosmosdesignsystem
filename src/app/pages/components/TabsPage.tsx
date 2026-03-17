@@ -8,7 +8,9 @@ export function TabsPage() {
       title="Tabs"
       description="Tabs organize content into separate views where only one view can be visible at a time."
     >
-      <Showcase title="Basic Tabs" delay={0.1} code={`<Tabs defaultValue="preview">
+      <Showcase title="Basic Tabs" delay={0.1} code={`import { Tabs, TabsList, TabsTrigger, TabsContent } from '@cosmos-ds/react';
+
+<Tabs defaultValue="preview">
   <TabsList>
     <TabsTrigger value="preview">
       <Eye className="w-3.5 h-3.5 mr-1.5" /> Preview

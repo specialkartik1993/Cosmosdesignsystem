@@ -119,7 +119,7 @@ export function Icons() {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <h1 className="text-[clamp(1.5rem,3vw,2rem)] tracking-tight mb-2" style={{ fontWeight: 700 }}>Icons</h1>
         <p className="text-muted-foreground text-[15px] mb-4 max-w-2xl leading-relaxed">
-          Powered by Lucide — a beautiful, consistent icon library with 1000+ icons. Click any icon to copy its JSX tag.
+          Powered by Lucide, a beautiful, consistent icon library with 1000+ icons. Click any icon to copy its JSX tag.
         </p>
         <div className="flex items-center gap-3 mb-8">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/8 text-primary text-[11px] border border-primary/10" style={{ fontWeight: 600 }}>

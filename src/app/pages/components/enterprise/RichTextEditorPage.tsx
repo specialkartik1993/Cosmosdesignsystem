@@ -27,7 +27,7 @@ export function RichTextEditorPage() {
   const [editorContent, setEditorContent] = useState(
     `<h2>Welcome to Cosmos Rich Text Editor</h2>
 <p>This is a <strong>full-featured</strong> rich text editor built for enterprise applications. It supports <em>inline formatting</em>, block-level elements, and <code>code snippets</code>.</p>
-<blockquote>Design is not just what it looks like and feels like. Design is how it works. — Steve Jobs</blockquote>
+<blockquote>Design is not just what it looks like and feels like. Design is how it works.</blockquote>
 <h3>Key Features</h3>
 <ul>
   <li>Full toolbar with keyboard shortcuts</li>
@@ -79,22 +79,45 @@ export function RichTextEditorPage() {
   return (
     <ComponentPage title="Rich Text Editor" description="Enterprise WYSIWYG editor with full formatting toolbar, markdown shortcuts, split view, word count, and collaboration-ready architecture.">
       {/* Full Editor */}
-      <Showcase title="Full-Featured Editor" description="Complete rich text editing experience with toolbar, keyboard shortcuts, and multiple view modes." delay={0.05} code={`import { RichTextEditor } from '@cosmos-ds/enterprise';
+      <Showcase title="Full-Featured Editor" description="Complete rich text editing experience with toolbar, keyboard shortcuts, and multiple view modes." delay={0.05} code={`import {
+  RichTextToolbar,
+  RichTextEditorContent,
+  RichTextStatusBar,
+  useRichTextEditor,
+} from '@cosmos-ds/react';
 
-<RichTextEditor
-  value={content}
-  onChange={setContent}
-  placeholder="Start writing..."
-  toolbar="full"
-  enableMarkdownShortcuts
-  enableMentions
-  enableCollaboration
-  maxLength={10000}
->
-  <RichTextEditor.Toolbar />
-  <RichTextEditor.Content />
-  <RichTextEditor.Footer wordCount charCount />
-</RichTextEditor>`}>
+const {
+  content, setContent,
+  activeFormats, toggleFormat,
+  alignment, setAlignment,
+  isFullscreen, setIsFullscreen,
+  viewMode, setViewMode,
+  wordCount, charCount,
+  getToolbarGroups,
+} = useRichTextEditor({
+  initialContent: '<p>Start writing...</p>',
+  initialFormats: ['bold'],
+});
+
+<div className="rounded-xl border overflow-hidden">
+  <RichTextToolbar groups={getToolbarGroups()} />
+  <RichTextEditorContent
+    value={content}
+    onChange={setContent}
+    placeholder="Start writing..."
+    minHeight={200}
+  />
+  <RichTextStatusBar
+    wordCount={wordCount}
+    charCount={charCount}
+    viewMode={viewMode}
+    onViewModeChange={setViewMode}
+    isFullscreen={isFullscreen}
+    onFullscreenToggle={() => setIsFullscreen(!isFullscreen)}
+    enableViewModes
+    enableFullscreen
+  />
+</div>`}>
         <div className={`rounded-2xl border border-border bg-card overflow-hidden transition-all ${isFullscreen ? 'fixed inset-4 z-50 shadow-2xl' : ''}`}>
           {/* Toolbar */}
           <div className="flex items-center gap-0.5 px-2 py-1.5 border-b border-border bg-muted/20 flex-wrap">
@@ -283,7 +306,7 @@ export function RichTextEditorPage() {
                 suppressContentEditableWarning
                 className="min-h-[100px] px-4 py-3 text-[13px] leading-relaxed outline-none"
               >
-                <p><strong>Meeting Notes — Sprint Review</strong></p>
+                <p><strong>Meeting Notes: Sprint Review</strong></p>
                 <p className="mt-2 text-muted-foreground">• Data Grid component approved for v1.2</p>
                 <p className="text-muted-foreground">• File Upload needs accessibility audit</p>
                 <p className="text-muted-foreground">• Rich Text Editor timeline: 2 weeks</p>

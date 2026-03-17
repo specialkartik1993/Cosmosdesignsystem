@@ -21,7 +21,9 @@ export function AlertPage() {
     >
       <Toaster position="top-right" richColors />
 
-      <Showcase title="Alert Variants" delay={0.1} code={`<Alert>
+      <Showcase title="Alert Variants" delay={0.1} code={`import { Alert, AlertTitle, AlertDescription } from '@cosmos-ds/react';
+
+<Alert>
   <Info className="w-4 h-4" />
   <AlertTitle>Information</AlertTitle>
   <AlertDescription>This is an informational alert.</AlertDescription>

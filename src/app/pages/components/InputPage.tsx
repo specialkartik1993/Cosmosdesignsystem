@@ -128,7 +128,7 @@ function DoDontCard({ type, title, children }: { type: 'do' | 'dont'; title: str
       <div className={`px-4 py-2 flex items-center gap-2 ${isDo ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
         {isDo ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <XCircle className="w-4 h-4 text-red-500" />}
         <span className={`text-[12px] ${isDo ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`} style={{ fontWeight: 600 }}>
-          {isDo ? 'DO' : "DON'T"} — {title}
+          {isDo ? 'DO' : "DON'T"}: {title}
         </span>
       </div>
       <div className="p-4 bg-card">
@@ -477,9 +477,14 @@ export function InputPage() {
       {/* ============================================================ */}
       {/*  BASIC INPUTS                                                 */}
       {/* ============================================================ */}
-      <Showcase title="Basic Inputs" delay={0.05} code={`<FormField label="Default" helperText="This is a standard text input.">
-  <Input placeholder="Type something..." />
-</FormField>`}>
+      <Showcase title="Basic Inputs" delay={0.05} code={`import { Input, Label, Textarea } from '@cosmos-ds/react';
+
+<Input placeholder="Type something..." />
+<Input type="email" placeholder="Email" />
+<Input type="password" placeholder="Password" />
+<Input disabled placeholder="Disabled" />
+<Textarea placeholder="Long text..." />
+<Label htmlFor="name">Full Name</Label>`}>
         <div className="grid sm:grid-cols-2 gap-5 max-w-2xl">
           <FormField label="Default" helperText="This is a standard text input.">
             <Input placeholder="Type something..." />
@@ -590,7 +595,7 @@ export function InputPage() {
             <Input placeholder="Enter your name" className="border-red-500 focus-visible:ring-red-500/30" aria-invalid />
           </FormField>
           <FormField label="Error with Value" error="Email format is invalid. Expected: name@domain.com" required>
-            <Input value="invalid-email" className="border-red-500 focus-visible:ring-red-500/30" aria-invalid />
+            <Input value="invalid-email" readOnly className="border-red-500 focus-visible:ring-red-500/30" aria-invalid />
           </FormField>
         </div>
       </Showcase>
@@ -621,7 +626,7 @@ export function InputPage() {
         <div className="space-y-6 max-w-md">
           {/* Real-time email */}
           <FormField
-            label="Email — Real-time Validation" required
+            label="Email with Real-time Validation" required
             error={email && !isValidEmail ? 'Please enter a valid email address' : undefined}
             success={email && isValidEmail ? 'Email looks good!' : undefined}
             helperText={!email ? 'We\'ll validate as you type.' : undefined}
@@ -646,7 +651,7 @@ export function InputPage() {
 
           {/* Async username */}
           <FormField
-            label="Username — Async Check" required
+            label="Username with Async Check" required
             error={usernameAvailable === false ? `"${username}" is already taken.` : undefined}
             success={usernameAvailable === true ? `"${username}" is available!` : undefined}
             helperText={username.length > 0 && username.length < 3 ? 'Must be at least 3 characters.' : !username ? 'Check if your username is available.' : undefined}
@@ -821,7 +826,7 @@ export function InputPage() {
                   placeholder=" "
                 />
                 <motion.label
-                  animate={{ y: isFloatActive(key) ? -10 : 0, scale: isFloatActive(key) ? 0.8 : 1, color: floatFocused[key] ? 'var(--primary)' : 'var(--muted-foreground)' }}
+                  animate={{ y: isFloatActive(key) ? -10 : 0, scale: isFloatActive(key) ? 0.8 : 1, color: floatFocused[key] ? '#818cf8' : '#94a3b8' }}
                   className="absolute left-3 top-3.5 text-[14px] text-muted-foreground origin-left pointer-events-none"
                 >{label}</motion.label>
               </div>
@@ -1204,7 +1209,7 @@ export function InputPage() {
           <FormField label="Read-Only Field" helperText="For display purposes only.">
             <Input value="cosmos-ds-pro" readOnly className="bg-muted/30" />
           </FormField>
-          <FormField label="Locked — Admin Only" helperText="Contact admin to change.">
+          <FormField label="Locked (Admin Only)" helperText="Contact admin to change.">
             <div className="relative">
               <Input value="alice@cosmos.dev" readOnly className="bg-muted/30 pr-10" />
               <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground/50" />
@@ -1224,7 +1229,7 @@ export function InputPage() {
       {/* ============================================================ */}
       {/*  COMPOSED FORM — COSMOS BRANDED                               */}
       {/* ============================================================ */}
-      <Showcase title="Composed Form — Space Mission Registration" description="A real-world form composing all input variants with Cosmos branding." delay={0.53} code={`<form className="space-y-5">
+      <Showcase title="Composed Form: Space Mission Registration" description="A real-world form composing all input variants with Cosmos branding." delay={0.53} code={`<form className="space-y-5">
   <FormField label="Mission Name" required>
     <Input />
   </FormField>

@@ -382,7 +382,7 @@ export function Installation() {
               </span>
             </div>
             <p className="text-muted-foreground text-[15px] max-w-2xl leading-relaxed">
-              Everything you need to install, configure, and use the Cosmos Design System as a first-class npm dependency in any React project — from atomic components to enterprise-grade patterns.
+              Everything you need to install, configure, and use the Cosmos Design System as a first-class npm dependency in any React project, from atomic components to enterprise-grade patterns.
             </p>
           </div>
           <a
@@ -489,7 +489,7 @@ export default function App() {
               { pkg: 'react', version: '^18.0.0 || ^19.0.0', note: 'React 18+ with concurrent features' },
               { pkg: 'react-dom', version: '^18.0.0 || ^19.0.0', note: 'Matching React DOM version' },
               { pkg: 'tailwindcss', version: '^3.4.0 || ^4.0.0', note: 'Tailwind CSS v3.4+ or v4' },
-              { pkg: 'motion', version: '^11.0.0', note: 'Optional — for interaction components' },
+              { pkg: 'motion', version: '^11.0.0', note: 'Optional, for interaction components' },
             ].map(dep => (
               <div key={dep.pkg} className="flex items-start gap-3 p-4 rounded-xl bg-card border border-border">
                 <Package className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
@@ -583,7 +583,7 @@ npm install @cosmos-ds/all`}
           </div>
           <div className="mt-4">
             <Callout type="info">
-              <strong className="text-foreground">useTheme()</strong> — Access the current theme, toggle, or set a specific mode from anywhere in your component tree.
+              <strong className="text-foreground">useTheme()</strong> lets you access the current theme, toggle, or set a specific mode from anywhere in your component tree.
               <CodeBlock
                 language="tsx"
                 code={`import { useTheme } from '@cosmos-ds/react';
@@ -626,7 +626,7 @@ import '@cosmos-ds/react/styles.css';`}
         </Section>
 
         {/* 6. USE COMPONENTS */}
-        <Section id="use-components" icon={Box} title="Use Components" subtitle="Import directly from the package root — fully tree-shakable.">
+        <Section id="use-components" icon={Box} title="Use Components" subtitle="Import directly from the package root. Fully tree-shakable.">
           <div className="space-y-4">
             <CodeBlock
               language="tsx"
@@ -679,7 +679,7 @@ function ProfileCard() {
             </p>
             <CodeBlock
               language="tsx"
-              code={`// Deep imports (alternative — same result with tree shaking)
+              code={`// Deep imports (alternative, same result with tree shaking)
 import { Button } from '@cosmos-ds/react/components/button';
 import { Card } from '@cosmos-ds/react/components/card';
 import { useTheme } from '@cosmos-ds/react/hooks';`}
@@ -845,14 +845,14 @@ export default defineConfig({
         </Section>
 
         {/* 9. TREE SHAKING */}
-        <Section id="tree-shaking" icon={TreePine} title="Tree Shaking" subtitle="Only ship what you use — zero unused code.">
+        <Section id="tree-shaking" icon={TreePine} title="Tree Shaking" subtitle="Only ship what you use. Zero unused code.">
           <div className="space-y-4">
             <p className="text-[14px] text-muted-foreground leading-relaxed">
               Cosmos is built with <strong className="text-foreground">ESM-first architecture</strong> and proper <code className="text-sky-300 bg-sky-500/10 px-1 rounded text-[13px]">sideEffects: false</code> declarations. Modern bundlers (Vite, webpack 5, Turbopack, esbuild) will automatically eliminate unused components.
             </p>
             <div className="grid sm:grid-cols-3 gap-3">
               {[
-                { label: 'Full package', size: '~128 KB', note: 'All 42+ components', color: 'text-muted-foreground' },
+                { label: 'Full package', size: '~142 KB', note: 'All 64 components', color: 'text-muted-foreground' },
                 { label: 'Typical app', size: '~18-32 KB', note: '10-15 components', color: 'text-emerald-400' },
                 { label: 'Single Button', size: '~2.1 KB', note: 'Just a Button', color: 'text-emerald-400' },
               ].map(item => (
@@ -928,7 +928,7 @@ import type {
 } from '@cosmos-ds/react/types';`}
             />
             <Callout type="success">
-              <strong className="text-foreground">Strict Mode Compatible</strong> — All components pass <code className="text-emerald-300">strict: true</code> and <code className="text-emerald-300">noUncheckedIndexedAccess</code> without errors.
+              <strong className="text-foreground">Strict Mode Compatible.</strong> All components pass <code className="text-emerald-300">strict: true</code> and <code className="text-emerald-300">noUncheckedIndexedAccess</code> without errors.
             </Callout>
           </div>
         </Section>
@@ -1008,7 +1008,7 @@ import type {
           <div className="space-y-4">
             <div className="grid sm:grid-cols-2 gap-3">
               {[
-                { label: '@cosmos-ds/react', min: '42 KB', gzip: '14 KB', note: 'Core (42 components)' },
+                { label: '@cosmos-ds/react', min: '48 KB', gzip: '16 KB', note: 'Core (64 components)' },
                 { label: '@cosmos-ds/enterprise', min: '28 KB', gzip: '9 KB', note: 'Enterprise pack (4 components)' },
                 { label: '@cosmos-ds/ai', min: '22 KB', gzip: '7 KB', note: 'Cosmic AI pack (5 components)' },
                 { label: 'styles.css', min: '18 KB', gzip: '3.8 KB', note: 'All tokens + base styles' },

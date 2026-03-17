@@ -13,7 +13,9 @@ export function DropdownPage() {
       title="Dropdown Menu"
       description="Dropdown menus display a list of choices on temporary surfaces, triggered by user interaction."
     >
-      <Showcase title="Basic Dropdown" delay={0.1} code={`<DropdownMenu>
+      <Showcase title="Basic Dropdown" delay={0.1} code={`import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@cosmos-ds/react';
+
+<DropdownMenu>
   <DropdownMenuTrigger asChild>
     <Button variant="outline">
       Open Menu <ChevronDown className="w-4 h-4 ml-2" />

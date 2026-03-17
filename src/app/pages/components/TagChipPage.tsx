@@ -107,9 +107,44 @@ export function TagChipPage() {
       description="Tags and chips are compact elements used to label, categorize, filter, or represent selections. They support dismissal, selection states, icons, and avatars."
     >
       {/* Basic Variants */}
-      <Showcase title="Variants" delay={0.05} code={`<span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] bg-primary/10 text-primary border border-primary/20">
-  <Tag className="w-3 h-3" /> Default
-</span>`}>
+      <Showcase title="Variants" delay={0.05} code={`import { Tag, TagInput, TagGroup } from '@cosmos-ds/react';
+
+// Color variants
+<Tag label="Default" color="default" />
+<Tag label="Blue" color="blue" />
+<Tag label="Emerald" color="emerald" />
+<Tag label="Amber" color="amber" />
+<Tag label="Red" color="red" />
+<Tag label="Purple" color="purple" />
+<Tag label="Pink" color="pink" />
+<Tag label="Cyan" color="cyan" />
+
+// With dismiss
+<Tag label="Removable" dismissible onDismiss={() => {}} />
+
+// With dot indicator
+<Tag label="Active" color="emerald" dot />
+
+// Variants: subtle (default), solid, outline
+<Tag label="Subtle" variant="subtle" />
+<Tag label="Solid" variant="solid" />
+<Tag label="Outline" variant="outline" />
+
+// Tag input
+<TagInput
+  value={tags}
+  onChange={setTags}
+  placeholder="Add a tag…"
+  color="blue"
+/>
+
+// Selection group
+<TagGroup
+  options={[{ label: 'React' }, { label: 'Vue' }, { label: 'Angular' }]}
+  value={selected}
+  onChange={setSelected}
+  multiple
+/>`}>
         <div className="space-y-4">
           <div>
             <p className="text-[11px] text-muted-foreground mb-2 uppercase tracking-wider" style={{ fontWeight: 600 }}>Filled</p>

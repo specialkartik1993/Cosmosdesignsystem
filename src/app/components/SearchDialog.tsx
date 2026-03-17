@@ -66,7 +66,7 @@ const searchItems: SearchItem[] = [
   { title: 'Status Indicators', path: '/components/status', category: 'Molecules', icon: Shapes },
   { title: 'Search Bar', path: '/components/search-bar', category: 'Molecules', icon: Shapes },
   { title: 'Notification', path: '/components/notification', category: 'Molecules', icon: Shapes },
-  { title: 'Drawer & Sheet', path: '/components/drawer', category: 'Molecules', icon: Shapes, comingSoon: true },
+  { title: 'Drawer & Sheet', path: '/components/drawer', category: 'Molecules', icon: Shapes },
   // Organisms
   { title: 'Data Table', path: '/components/table', category: 'Organisms', icon: Blocks },
   { title: 'Navigation', path: '/components/navigation', category: 'Organisms', icon: Blocks },
@@ -94,7 +94,7 @@ const searchItems: SearchItem[] = [
   { title: 'Animations', path: '/examples/animations', category: 'Examples', icon: Zap },
   { title: 'Playground', path: '/examples/playground', category: 'Examples', icon: Play },
   { title: 'Cosmic AI Playground', path: '/examples/ai-playground', category: 'Examples', icon: CosmicAIIcon },
-  { title: 'Figma Plugin', path: '/examples/figma-plugin', category: 'Examples', icon: Figma },
+  { title: 'Figma Plugin', path: '/examples/figma-plugin', category: 'Examples', icon: Figma, comingSoon: true },
   // Accessibility
   { title: 'Accessibility Audit', path: '/accessibility', category: 'Accessibility', icon: Accessibility },
   { title: 'Color Contrast Checker', path: '/accessibility', category: 'Accessibility', icon: Palette },
@@ -143,7 +143,6 @@ export function SearchDialog({ open, onClose }: SearchDialogProps) {
 
   const handleSelect = useCallback(
     (item: SearchItem) => {
-      if (item.comingSoon) return;
       navigate(item.path);
       onClose();
     },
@@ -158,7 +157,7 @@ export function SearchDialog({ open, onClose }: SearchDialogProps) {
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         setSelectedIndex(i => Math.max(i - 1, 0));
-      } else if (e.key === 'Enter' && flatFiltered[selectedIndex] && !flatFiltered[selectedIndex].comingSoon) {
+      } else if (e.key === 'Enter' && flatFiltered[selectedIndex]) {
         handleSelect(flatFiltered[selectedIndex]);
       } else if (e.key === 'Escape') {
         onClose();
@@ -237,14 +236,12 @@ export function SearchDialog({ open, onClose }: SearchDialogProps) {
                         data-index={globalIndex}
                         onClick={() => handleSelect(item)}
                         onMouseEnter={() => setSelectedIndex(globalIndex)}
-                        className={`w-full flex items-center gap-3 px-4 py-2 text-left transition-colors ${
-                          isSoon
-                            ? 'cursor-default opacity-50'
-                            : `cursor-pointer ${isSelected ? 'bg-primary/8 text-primary' : 'text-foreground hover:bg-accent/50'}`
+                        className={`w-full flex items-center gap-3 px-4 py-2 text-left transition-colors cursor-pointer ${
+                          isSelected ? 'bg-primary/8 text-primary' : `text-foreground hover:bg-accent/50 ${isSoon ? 'opacity-60' : ''}`
                         }`}
                       >
-                        <Icon className={`w-4 h-4 flex-shrink-0 ${isSoon ? 'text-muted-foreground/50' : isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
-                        <span className="text-[13px] flex-1" style={{ fontWeight: isSelected && !isSoon ? 500 : 400 }}>
+                        <Icon className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
+                        <span className="text-[13px] flex-1" style={{ fontWeight: isSelected ? 500 : 400 }}>
                           {item.title}
                         </span>
                         {isSoon && (

@@ -72,7 +72,9 @@ export function TimelinePage() {
         title="Horizontal Stepper"
         description="Interactive multi-step wizard with clickable steps and animated transitions."
         delay={0.05}
-        code={`<div className="flex items-center">
+        code={`import { Timeline, TimelineItem, TimelineContent } from '@cosmos-ds/react';
+
+<div className="flex items-center">
   {steps.map((step, i) => (
     <React.Fragment key={step}>
       <StepIcon status={i < active ? 'complete' : i === active ? 'current' : 'pending'} />

@@ -121,41 +121,42 @@ export function InteractiveCardsPage() {
     <ComponentPage title="Interactive Cards" description="Production-ready card components with 3D tilt, spotlight tracking, flip animations, magnetic hover, glassmorphism, and hover-reveal patterns.">
 
       {/* 3D Tilt Cards */}
-      <Showcase title="3D Tilt Cards" description="Mouse-tracking perspective tilt with spring physics. Cards respond to cursor position with smooth rotation." delay={0.05} code={`import { motion, useMotionValue, useTransform, useSpring } from 'motion/react';
-import { useRef, useCallback } from 'react';
+      <Showcase title="3D Tilt Card" description="Cards that respond to mouse position with realistic 3D perspective tilt." delay={0.05} code={`import {
+  TiltCard,
+  FlipCard,
+  HoverRevealCard,
+  MagneticButton,
+  SpotlightCard,
+} from '@cosmos-ds/react';
 
-function TiltCard({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+// 3D tilt on hover
+<TiltCard maxTilt={8} glare hoverScale={1.02}>
+  <div className="p-6 rounded-xl border">Your content</div>
+</TiltCard>
 
-  const rotateX = useSpring(
-    useTransform(y, [-0.5, 0.5], [8, -8]),
-    { stiffness: 300, damping: 30 }
-  );
-  const rotateY = useSpring(
-    useTransform(x, [-0.5, 0.5], [-8, 8]),
-    { stiffness: 300, damping: 30 }
-  );
+// Front/back flip card
+<FlipCard
+  trigger="hover"
+  direction="horizontal"
+  front={<div>Front side</div>}
+  back={<div>Back side</div>}
+/>
 
-  const handleMouse = useCallback((e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    x.set((e.clientX - rect.left) / rect.width - 0.5);
-    y.set((e.clientY - rect.top) / rect.height - 0.5);
-  }, [x, y]);
+// Hover overlay reveal
+<HoverRevealCard direction="bottom"
+  overlay={<div className="bg-black/60 text-white">Revealed!</div>}>
+  <img src="..." />
+</HoverRevealCard>
 
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouse}
-      onMouseLeave={() => { x.set(0); y.set(0); }}
-      style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-    >
-      {children}
-    </motion.div>
-  );
-}`}>
+// Magnetic cursor-following button
+<MagneticButton strength={20}>
+  <span>Hover me</span>
+</MagneticButton>
+
+// Spotlight gradient effect
+<SpotlightCard spotlightColor="rgba(120,119,198,0.1)">
+  <div className="p-6">Content</div>
+</SpotlightCard>`}>
         <div className="grid md:grid-cols-3 gap-6" style={{ perspective: '1200px' }}>
           {[
             { img: IMG.mountain, title: 'Alpine Explorer', desc: 'Discover breathtaking mountain trails', tag: 'Adventure', color: 'from-sky-600 to-indigo-800' },
@@ -176,7 +177,7 @@ function TiltCard({ children }: { children: React.ReactNode }) {
                     {card.tag}
                   </Badge>
                   <div className="absolute top-3 right-3 flex gap-1.5">
-                    <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike(i)} className={`w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center cursor-pointer transition-all ${liked.has(i) ? 'bg-red-500 text-white' : 'bg-white/20 text-white hover:bg-white/30'}`}>
+                    <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleLike(i)} className={`w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center cursor-pointer transition-all ${liked.has(i) ? 'text-white' : 'bg-white/20 text-white hover:bg-white/30'}`} style={liked.has(i) ? { backgroundColor: '#ef4444' } : undefined}>
                       <Heart className={`w-3.5 h-3.5 ${liked.has(i) ? 'fill-current' : ''}`} />
                     </motion.button>
                     <motion.button whileTap={{ scale: 0.8 }} onClick={() => toggleSave(i)} className={`w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center cursor-pointer transition-all ${saved.has(i) ? 'bg-primary text-white' : 'bg-white/20 text-white hover:bg-white/30'}`}>

@@ -16,7 +16,9 @@ export function AvatarPage() {
       title="Avatar"
       description="Avatars represent a user or entity. They can display an image, initials, or a fallback icon."
     >
-      <Showcase title="Sizes" delay={0.1} code={`{[24, 32, 40, 48, 56, 72].map(size => (
+      <Showcase title="Sizes" delay={0.1} code={`import { Avatar, AvatarImage, AvatarFallback } from '@cosmos-ds/react';
+
+{[24, 32, 40, 48, 56, 72].map(size => (
   <div
     className="rounded-full bg-primary/15 flex items-center justify-center text-primary"
     style={{ width: size, height: size, fontSize: size * 0.35 }}

@@ -165,21 +165,49 @@ export function DateRangePickerPage() {
   return (
     <ComponentPage title="Date Range Picker" description="Enterprise date range picker with preset ranges, dual calendars, comparison mode, and time selection.">
       {/* Full Picker */}
-      <Showcase title="Dual Calendar Picker" description="Full-featured date range picker with presets, comparison mode, and visual range highlighting." delay={0.05} code={`import { DateRangePicker } from '@cosmos-ds/enterprise';
+      <Showcase title="Dual Calendar Picker" description="Full-featured date range picker with presets, comparison mode, and visual range highlighting." delay={0.05} code={`import {
+  CalendarMonth,
+  useDateRangePicker,
+  getDefaultPresets,
+  formatDate,
+  formatDateRange,
+  daysDifference,
+} from '@cosmos-ds/react';
 
-<DateRangePicker
-  value={{ start, end }}
-  onChange={({ start, end }) => setRange({ start, end })}
-  presets={[
-    { label: 'Last 7 days', value: 'last7' },
-    { label: 'Last 30 days', value: 'last30' },
-    { label: 'This month', value: 'thisMonth' },
-    { label: 'This quarter', value: 'thisQuarter' },
-  ]}
-  enableComparison
-  maxDate={new Date()}
-  locale="en-US"
-/>`}>
+const presets = getDefaultPresets();
+const {
+  range, hoverDate, setHoverDate,
+  isOpen, setIsOpen,
+  leftMonth, rightMonth,
+  changeLeftMonth, changeRightMonth,
+  handleDateClick, applyPreset, clear,
+  days, formattedRange,
+} = useDateRangePicker();
+
+// Trigger button
+<button onClick={() => setIsOpen(!isOpen)}>
+  {formattedRange}
+</button>
+
+// Picker panel
+{isOpen && (
+  <div className="grid grid-cols-2 gap-6">
+    <CalendarMonth
+      year={leftMonth.year} month={leftMonth.month}
+      range={range} hoverDate={hoverDate}
+      onDateClick={handleDateClick}
+      onDateHover={setHoverDate}
+      onMonthChange={changeLeftMonth}
+    />
+    <CalendarMonth
+      year={rightMonth.year} month={rightMonth.month}
+      range={range} hoverDate={hoverDate}
+      onDateClick={handleDateClick}
+      onDateHover={setHoverDate}
+      onMonthChange={changeRightMonth}
+    />
+  </div>
+)}`}>
         <div className="space-y-4">
           {/* Trigger */}
           <div className="flex flex-wrap items-center gap-3">
@@ -339,7 +367,7 @@ export function DateRangePickerPage() {
                 <option>months</option>
               </select>
             </div>
-            <p className="text-[11px] text-muted-foreground">Feb 11, 2026 — Mar 13, 2026</p>
+            <p className="text-[11px] text-muted-foreground">Feb 11, 2026 to Mar 13, 2026</p>
           </div>
 
           {/* Time selector */}

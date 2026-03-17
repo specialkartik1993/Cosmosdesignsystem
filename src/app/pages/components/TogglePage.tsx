@@ -22,7 +22,9 @@ export function TogglePage() {
       title="Toggle & Switch"
       description="Toggles and switches allow users to turn settings on or off with immediate effect."
     >
-      <Showcase title="Basic Switch" delay={0.1} code={`<div className="flex items-center gap-3">
+      <Showcase title="Basic Switch" delay={0.1} code={`import { Switch, Toggle, Slider, RadioGroup, RadioGroupItem } from '@cosmos-ds/react';
+
+<div className="flex items-center gap-3">
   <Switch checked={enabled} onCheckedChange={setEnabled} />
   <Label>Notifications</Label>
 </div>

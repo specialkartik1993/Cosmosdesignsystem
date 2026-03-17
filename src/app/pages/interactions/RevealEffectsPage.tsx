@@ -162,76 +162,37 @@ export function RevealEffectsPage() {
   const [resetKey, setResetKey] = useState(0);
 
   return (
-    <ComponentPage title="Reveal Effects" description="Text reveals, clip-path animations, typewriter effects, character-by-character animations, and morphing numbers — all scroll-triggered and ready to use.">
+    <ComponentPage title="Reveal Effects" description="Text reveals, clip-path animations, typewriter effects, character-by-character animations, and morphing numbers. All scroll-triggered and ready to use.">
 
       {/* Text Reveals */}
-      <Showcase title="Text Reveal Animations" description="Multiple approaches to revealing text: character-by-character, word-by-word, line reveal, and blur-in. All scroll-triggered." delay={0.05} code={`// Character-by-character reveal
-function CharReveal({ text, delay = 0 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
+      <Showcase title="Text Reveal Animations" description="Multiple approaches to revealing text: character-by-character, word-by-word, line reveal, and blur-in. All scroll-triggered." delay={0.05} code={`import {
+  ClipReveal, TextReveal, GradientReveal,
+  CounterReveal, HighlightReveal,
+} from '@cosmos-ds/react';
 
-  return (
-    <span ref={ref} className="inline-flex flex-wrap">
-      {text.split('').map((char, i) => (
-        <motion.span
-          key={i}
-          initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
-          animate={isInView
-            ? { opacity: 1, y: 0, filter: 'blur(0px)' }
-            : { opacity: 0, y: 20, filter: 'blur(4px)' }
-          }
-          transition={{
-            duration: 0.3,
-            delay: delay + i * 0.025,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        >
-          {char}
-        </motion.span>
-      ))}
-    </span>
-  );
-}
+// Clip-path reveal (direction: left, right, top, bottom, circle)
+<ClipReveal direction="left" duration={0.8}>
+  <img src="..." />
+</ClipReveal>
 
-// Word-by-word reveal (clip-mask style)
-function WordReveal({ text, delay = 0 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+// Character-by-character text reveal
+<TextReveal text="Hello World" mode="char" stagger={0.02} as="h1" />
 
-  return (
-    <span ref={ref} className="inline-flex flex-wrap gap-x-[0.3em]">
-      {text.split(' ').map((word, i) => (
-        <span key={i} className="overflow-hidden">
-          <motion.span
-            initial={{ y: '110%' }}
-            animate={isInView ? { y: '0%' } : { y: '110%' }}
-            transition={{ duration: 0.5, delay: delay + i * 0.08 }}
-          >
-            {word}
-          </motion.span>
-        </span>
-      ))}
-    </span>
-  );
-}
+// Word-by-word reveal
+<TextReveal text="Design is intelligence made visible." mode="word" />
 
-// Line reveal
-function LineReveal({ children, delay = 0 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+// Gradient wipe reveal
+<GradientReveal direction="left" duration={1}>
+  <p>This content wipes in with a gradient mask.</p>
+</GradientReveal>
 
-  return (
-    <div ref={ref} className="overflow-hidden">
-      <motion.div
-        initial={{ y: '100%', opacity: 0 }}
-        animate={isInView ? { y: '0%', opacity: 1 } : {}}
-        transition={{ duration: 0.6, delay }}
-      >
-        {children}
-      </motion.div>
-    </div>
-  );
-}`}>
+// Number counter with flip animation
+<CounterReveal value="$12,400" stagger={0.05} />
+
+// Text highlight animation
+<HighlightReveal color="bg-primary/20">
+  important text
+</HighlightReveal>`}>
         <div className="space-y-10" key={resetKey}>
           <div className="flex justify-end">
             <Button variant="outline" size="sm" className="gap-1.5 text-[11px]" onClick={() => setResetKey(k => k + 1)}>
@@ -379,7 +340,7 @@ function LineReveal({ children, delay = 0 }) {
       </Showcase>
 
       {/* Staggered Card Grid */}
-      <Showcase title="Staggered Grid Reveal" description="Cards reveal in a wave pattern — row by row or with a diagonal cascade. Each card animates from a different origin." delay={0.2} code={`// Staggered grid with diagonal delay calculation
+      <Showcase title="Staggered Grid Reveal" description="Cards reveal in a wave pattern, row by row or with a diagonal cascade. Each card animates from a different origin." delay={0.2} code={`// Staggered grid with diagonal delay calculation
 function StaggeredGrid({ items, columns = 3 }) {
   return (
     <div className="grid grid-cols-3 gap-4">

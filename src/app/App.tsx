@@ -3,6 +3,7 @@ import { RouterProvider } from 'react-router';
 import { AnimatePresence, motion } from 'motion/react';
 import { router } from './routes';
 import { ThemeProvider } from './context/ThemeContext';
+import { DesignThemeProvider } from './context/DesignThemeContext';
 import { CosmosLoader } from './components/CosmosLoader';
 import { Onboarding } from './pages/Onboarding';
 
@@ -48,6 +49,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
+      <DesignThemeProvider>
       {/* Overlay phases (loader / onboarding) rendered above the app */}
       <AnimatePresence>
         {phase === 'loading' && (
@@ -79,6 +81,7 @@ export default function App() {
           <RouterProvider router={router} />
         </div>
       )}
+      </DesignThemeProvider>
     </ThemeProvider>
   );
 }

@@ -8,7 +8,9 @@ export function SelectPage() {
       title="Select"
       description="Select components let users choose one option from a dropdown list of options."
     >
-      <Showcase title="Basic Select" delay={0.1} code={`<Select>
+      <Showcase title="Basic Select" delay={0.1} code={`import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@cosmos-ds/react';
+
+<Select>
   <SelectTrigger>
     <SelectValue placeholder="Select a fruit" />
   </SelectTrigger>

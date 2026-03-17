@@ -54,10 +54,39 @@ export function NotificationPage() {
 
 function BasicNotifications() {
   return (
-    <Showcase title="Variants" delay={0.05} code={`<div className="... bg-emerald-500/10 border-emerald-500/20">
-  <CheckCircle2 className="text-emerald-500" />
-  <div><h4>Success</h4><p>Action completed.</p></div>
-</div>`}>
+    <Showcase title="Variants" delay={0.05} code={`import {
+  Notification, NotificationStack, NotificationBell,
+  InlineNotification, useNotifications,
+} from '@cosmos-ds/react';
+
+// useNotifications hook
+const { notifications, push, dismiss, markRead, unreadCount } = useNotifications({
+  maxStack: 5,
+  autoDismissMs: 5000,
+});
+
+// Push a notification
+push({ type: 'success', title: 'Saved!', message: 'Changes saved.' });
+push({ type: 'error', title: 'Upload failed', message: 'File too large.' });
+
+// Stack container (fixed position)
+<NotificationStack
+  notifications={notifications}
+  position="top-right"
+  onDismiss={dismiss}
+/>
+
+// Inline notification (within layout)
+<InlineNotification
+  type="warning"
+  title="Low disk space"
+  message="You have less than 5% storage remaining."
+  dismissible
+  action={{ label: 'Upgrade', onClick: () => {} }}
+/>
+
+// Bell with badge count
+<NotificationBell count={unreadCount} onClick={togglePanel} />`}>
       <div className="space-y-3 max-w-lg">
         {(['success', 'error', 'warning', 'info'] as const).map((type) => {
           const Icon = ICON_MAP[type];

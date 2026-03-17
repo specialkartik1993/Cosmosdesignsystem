@@ -178,41 +178,39 @@ function AnimatedCounter({ target, suffix = '', prefix = '' }: { target: number;
 
 export function ScrollTriggeredPage() {
   return (
-    <ComponentPage title="Scroll-Triggered Actions" description="Components and patterns that activate on scroll — counters, progress tracking, staggered reveals, and scroll-linked animations with ready-to-use code.">
+    <ComponentPage title="Scroll-Triggered Actions" description="Components and patterns that activate on scroll. Counters, progress tracking, staggered reveals, and scroll-linked animations with ready-to-use code.">
 
       {/* useInView basics */}
-      <Showcase title="Scroll-Triggered Animations" description="Elements animate when they enter the viewport using Motion's useInView hook. Scroll down to see each variant trigger." delay={0.05} code={`import { useRef } from 'react';
-import { motion, useInView } from 'motion/react';
+      <Showcase title="Scroll-Triggered Animations" description="Elements animate when they enter the viewport using Motion's useInView hook. Scroll down to see each variant trigger." delay={0.05} code={`import {
+  AnimateInView,
+  StaggerChildren,
+  CountUp,
+  ScrollProgress,
+  TextRevealOnScroll,
+} from '@cosmos-ds/react';
 
-function AnimateInView({ children, variant = 'fadeUp', delay = 0 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-
-  const variants = {
-    fadeUp:    { initial: { opacity: 0, y: 40 },  animate: { opacity: 1, y: 0 } },
-    fadeLeft:  { initial: { opacity: 0, x: -50 },  animate: { opacity: 1, x: 0 } },
-    scaleUp:   { initial: { opacity: 0, scale: 0.7 }, animate: { opacity: 1, scale: 1 } },
-    blur:      { initial: { opacity: 0, filter: 'blur(10px)' }, animate: { opacity: 1, filter: 'blur(0px)' } },
-  };
-
-  const v = variants[variant];
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={v.initial}
-      animate={isInView ? v.animate : v.initial}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// Usage
+// Animate when scrolled into view
 <AnimateInView variant="fadeUp" delay={0.1}>
   <Card>Content appears on scroll</Card>
-</AnimateInView>`}>
+</AnimateInView>
+
+// Variants: fadeUp, fadeDown, fadeLeft, fadeRight, scaleUp, rotateIn, blurIn, slideUp
+
+// Stagger children entrance
+<StaggerChildren staggerDelay={0.08}>
+  <Card>First</Card>
+  <Card>Second</Card>
+  <Card>Third</Card>
+</StaggerChildren>
+
+// Animated counter
+<CountUp to={12500} prefix="$" separator="," duration={2} />
+
+// Scroll progress bar
+<ScrollProgress position="top" color="bg-primary" />
+
+// Word-by-word text reveal
+<TextRevealOnScroll text="Design is the silent ambassador of your brand." />`}>
         <div className="grid md:grid-cols-2 gap-6">
           {[
             { variant: 'fadeUp', label: 'Fade Up', icon: ArrowDown },

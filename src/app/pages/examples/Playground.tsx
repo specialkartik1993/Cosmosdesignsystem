@@ -530,7 +530,7 @@ export function Playground() {
               </span>
             </div>
             <p className="text-muted-foreground text-[15px] max-w-2xl leading-relaxed">
-              Experiment with component props in real-time. Tweak variants, sizes, states, and content — then copy the generated code directly into your project.
+              Experiment with component props in real-time. Tweak variants, sizes, states, and content, then copy the generated code directly into your project.
             </p>
           </div>
         </div>

@@ -673,7 +673,7 @@ const packageJsonCode = `{
   "name": "@cosmos-ds/figma-plugin",
   "version": "2.4.1",
   "private": true,
-  "description": "Cosmos Design System — Figma plugin for token sync, visual diff, inspect & a11y audit",
+  "description": "Cosmos Design System: Figma plugin for token sync, visual diff, inspect & a11y audit",
   "license": "MIT",
   "scripts": {
     "dev": "concurrently \\"esbuild src/code.ts --bundle --outfile=dist/code.js --watch\\" \\"esbuild src/plugin-ui.tsx --bundle --outfile=dist/plugin-ui.js --watch\\"",
@@ -889,13 +889,13 @@ const publishChecklist = [
   {
     phase: 'Build',
     items: [
-      { task: 'Run `npm run build` — produces dist/ folder', critical: true },
+      { task: 'Run `npm run build` to produce the dist/ folder', critical: true },
       { task: 'Verify dist/code.js exists (Figma backend)', critical: true },
       { task: 'Verify dist/ui.html exists (UI shell)', critical: true },
       { task: 'Verify dist/plugin-ui.js exists (bundled React)', critical: true },
       { task: 'Verify dist/manifest.json exists', critical: true },
       { task: 'Bundle size check: UI < 100KB gzipped', critical: false },
-      { task: 'Run `npm run typecheck` — zero errors', critical: true },
+      { task: 'Run `npm run typecheck` with zero errors', critical: true },
     ],
   },
   {
@@ -1279,7 +1279,7 @@ mkdir -p src/components src/hooks src/styles dist`}
           icon={FileJson}
           label="05"
           title="Plugin Manifest"
-          description="The manifest.json tells Figma about your plugin — its name, entry points, permissions, and API version."
+          description="The manifest.json tells Figma about your plugin: its name, entry points, permissions, and API version."
         />
 
         <CopyBlock lang="json" title="manifest.json" code={manifestCode} />
@@ -1382,7 +1382,7 @@ mkdir -p src/components src/hooks src/styles dist`}
           <CopyBlock lang="typescript" title="cosmos.config.ts" code={cosmosConfigCode} />
         </CollapsibleSection>
 
-        <CollapsibleSection title="CI/CD — GitHub Actions">
+        <CollapsibleSection title="CI/CD with GitHub Actions">
           <CopyBlock lang="yaml" title=".github/workflows/cosmos-sync.yml" code={ciCdCode} />
         </CollapsibleSection>
       </section>
@@ -1587,11 +1587,11 @@ npm run typecheck`}
           <InfoCallout variant="info">
             <strong>Community listing assets you'll need:</strong>
             <ul className="list-disc list-inside mt-2 space-y-1 text-[12px]">
-              <li><strong>Plugin icon</strong> — 128x128 PNG. This appears in search results and the plugin menu.</li>
-              <li><strong>Cover image</strong> — 1920x960 PNG. The hero banner on your Community listing page.</li>
-              <li><strong>Description</strong> — 2-3 paragraphs. Plain text, no markdown. Include key features and use cases.</li>
-              <li><strong>Screenshots</strong> — 3-5 PNG images showing the plugin in action (optional but recommended).</li>
-              <li><strong>Support URL</strong> — Link to your GitHub repo issues page or docs site.</li>
+              <li><strong>Plugin icon:</strong> 128x128 PNG. This appears in search results and the plugin menu.</li>
+              <li><strong>Cover image:</strong> 1920x960 PNG. The hero banner on your Community listing page.</li>
+              <li><strong>Description:</strong> 2-3 paragraphs. Plain text, no markdown. Include key features and use cases.</li>
+              <li><strong>Screenshots:</strong> 3-5 PNG images showing the plugin in action (optional but recommended).</li>
+              <li><strong>Support URL:</strong> Link to your GitHub repo issues page or docs site.</li>
             </ul>
           </InfoCallout>
         </div>

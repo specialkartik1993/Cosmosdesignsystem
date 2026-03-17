@@ -46,7 +46,7 @@ function SmartPromptInput() {
   return (
     <div className="max-w-2xl mx-auto">
       <motion.div
-        animate={{ borderColor: focused ? 'var(--primary)' : 'var(--border)' }}
+        animate={{ borderColor: focused ? '#818cf8' : 'rgba(255,255,255,0.08)' }}
         className="rounded-2xl border-2 bg-card overflow-hidden shadow-sm transition-shadow hover:shadow-md"
       >
         {/* Attachments */}
@@ -365,13 +365,37 @@ export function AIPromptPage() {
     >
       <Showcase
         title="Smart Prompt Input"
-        description="Auto-expanding textarea with inline suggestions, attachment support, quick actions, and character count."
-        delay={0.1}
-        code={`<AIPromptInput
-  onSubmit={(prompt, attachments) => handleSubmit(prompt, attachments)}
-  suggestions={true}
-  showQuickActions={true}
+        description="AI-aware input with suggestions, attachments, quick actions, and auto-expanding textarea."
+        delay={0.05}
+        code={`import {
+  PromptInput,
+  PromptTemplateCard,
+} from '@cosmos-ds/react';
+
+<PromptInput
   placeholder="Ask anything..."
+  suggestions={[
+    { icon: <Code2 />, text: 'Generate a React component', category: 'Code' },
+    { icon: <PenTool />, text: 'Write documentation', category: 'Writing' },
+  ]}
+  quickActions={[
+    { icon: <Paperclip className="w-4 h-4" />, label: 'Attach' },
+    { icon: <Image className="w-4 h-4" />, label: 'Image', color: 'text-blue-500' },
+    { icon: <Mic className="w-4 h-4" />, label: 'Voice', color: 'text-emerald-500' },
+  ]}
+  showCharCount
+  maxLength={4000}
+  modelLabel="GPT-4o"
+  onSubmit={(text, attachments) => handleSubmit(text)}
+/>
+
+// Prompt templates
+<PromptTemplateCard
+  icon={<Code2 className="w-4 h-4" />}
+  title="Generate Component"
+  description="Create a React component with TypeScript and Tailwind"
+  prompt="Generate a React component for..."
+  onClick={(prompt) => setInput(prompt)}
 />`}
       >
         <SmartPromptInput />
@@ -379,7 +403,7 @@ export function AIPromptPage() {
 
       <Showcase
         title="Slash Command Palette"
-        description="Searchable command menu triggered by typing / — supporting code generation, analysis, formatting, and more."
+        description="Searchable command menu triggered by typing /. Supports code generation, analysis, formatting, and more."
         delay={0.2}
         code={`<SlashCommands
   commands={customCommands}

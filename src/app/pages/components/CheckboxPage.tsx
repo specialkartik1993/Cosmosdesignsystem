@@ -16,7 +16,10 @@ export function CheckboxPage() {
       title="Checkbox & Radio"
       description="Checkboxes allow users to select multiple options. Radio buttons let users select one option from a group."
     >
-      <Showcase title="Checkboxes" delay={0.1} code={`<div className="flex items-center gap-3">
+      <Showcase title="Checkboxes" delay={0.1} code={`import { Checkbox } from '@cosmos-ds/react';
+import { Label } from '@cosmos-ds/react';
+
+<div className="flex items-center gap-3">
   <Checkbox id="terms" checked={checked} onCheckedChange={toggle} />
   <Label htmlFor="terms">Accept terms and conditions</Label>
 </div>

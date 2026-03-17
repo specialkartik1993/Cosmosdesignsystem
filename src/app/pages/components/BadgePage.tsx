@@ -13,7 +13,9 @@ export function BadgePage() {
 
   return (
     <ComponentPage title="Badge" description="Badges are small status descriptors for UI elements. They communicate counts, labels, or status to the user.">
-      <Showcase title="Variants" delay={0.05} code={`<Badge>Default</Badge>
+      <Showcase title="Variants" delay={0.05} code={`import { Badge } from '@cosmos-ds/react';
+
+<Badge>Default</Badge>
 <Badge variant="secondary">Secondary</Badge>
 <Badge variant="destructive">Destructive</Badge>
 <Badge variant="outline">Outline</Badge>`}>
@@ -64,7 +66,7 @@ export function BadgePage() {
 </motion.span>`}>
         <div className="flex flex-wrap items-center gap-4">
           <span className="relative inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] bg-red-500/10 text-red-500 border border-red-500/20" style={{ fontWeight: 600 }}>
-            <motion.span animate={{ scale: [1, 1.4, 1], opacity: [1, 0, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} className="w-2 h-2 rounded-full bg-red-500" />
+            <motion.span animate={{ scale: [1, 1.4, 1], opacity: [1, 0, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} className="w-2 h-2 rounded-full" style={{ backgroundColor: '#ef4444' }} />
             Live Now
           </span>
           <motion.span
@@ -100,11 +102,11 @@ export function BadgePage() {
           </div>
           <div className="relative">
             <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center"><Star className="w-5 h-5" /></div>
-            <motion.span animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2 }} className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-card" />
+            <motion.span animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 2 }} className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-card" style={{ backgroundColor: '#10b981' }} />
           </div>
           <div className="relative">
             <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center"><TrendingUp className="w-5 h-5" /></div>
-            <motion.span animate={{ scale: [1, 1.3, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full border-2 border-card" />
+            <motion.span animate={{ scale: [1, 1.3, 1] }} transition={{ repeat: Infinity, duration: 1.5 }} className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-card" style={{ backgroundColor: '#ef4444' }} />
           </div>
         </div>
       </Showcase>
@@ -150,7 +152,7 @@ export function BadgePage() {
         </div>
       </Showcase>
 
-      <Showcase title="Interactive Count Badges" description="Click to decrement — animates count changes." delay={0.23} code={`<button onClick={() => decrement(key)}>
+      <Showcase title="Interactive Count Badges" description="Click to decrement. Animates count changes." delay={0.23} code={`<button onClick={() => decrement(key)}>
   <Badge>{label}: <AnimatedNumber value={count} /></Badge>
 </button>`}>
         <div className="flex flex-wrap gap-3">

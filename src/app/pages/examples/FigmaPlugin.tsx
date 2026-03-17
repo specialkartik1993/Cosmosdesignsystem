@@ -109,12 +109,12 @@ const SYNC_LOG: SyncLogEntry[] = [
 const A11Y_ISSUES: A11yIssue[] = [
   { id: '1', type: 'error', component: 'Button (Destructive)', message: 'Contrast ratio 3.2:1 fails WCAG AA for normal text (minimum 4.5:1)', wcag: '1.4.3' },
   { id: '2', type: 'error', component: 'Badge (Warning)', message: 'Foreground #f59e0b on #fef3c7 has contrast ratio 2.8:1', wcag: '1.4.3' },
-  { id: '3', type: 'warning', component: 'Input (Placeholder)', message: 'Placeholder text contrast 3.8:1 — passes AA Large but not AA Normal', wcag: '1.4.3' },
+  { id: '3', type: 'warning', component: 'Input (Placeholder)', message: 'Placeholder text contrast 3.8:1, passes AA Large but not AA Normal', wcag: '1.4.3' },
   { id: '4', type: 'warning', component: 'Tooltip', message: 'Focus indicator not visible on keyboard navigation', wcag: '2.4.7' },
-  { id: '5', type: 'pass', component: 'Button (Primary)', message: 'Contrast ratio 8.1:1 — passes WCAG AAA', wcag: '1.4.6' },
-  { id: '6', type: 'pass', component: 'Card', message: 'Border contrast 3.1:1 against background — passes AA for non-text', wcag: '1.4.11' },
+  { id: '5', type: 'pass', component: 'Button (Primary)', message: 'Contrast ratio 8.1:1, passes WCAG AAA', wcag: '1.4.6' },
+  { id: '6', type: 'pass', component: 'Card', message: 'Border contrast 3.1:1 against background, passes AA for non-text', wcag: '1.4.11' },
   { id: '7', type: 'pass', component: 'Toggle', message: 'Focus ring visible with 4px offset at 4.6:1 contrast', wcag: '2.4.7' },
-  { id: '8', type: 'pass', component: 'Badge (Default)', message: 'Text contrast 7.2:1 — passes WCAG AAA', wcag: '1.4.6' },
+  { id: '8', type: 'pass', component: 'Badge (Default)', message: 'Text contrast 7.2:1, passes WCAG AAA', wcag: '1.4.6' },
 ];
 
 const INSPECTABLE_COMPONENTS = [
@@ -583,7 +583,7 @@ function DiffTab({ notify }: { notify: (msg: string, type: Notification['type'])
     setResolving(token);
     setTimeout(() => {
       setResolving(null);
-      notify(`Resolved ${token} — using Figma value`, 'success');
+      notify(`Resolved ${token}, using Figma value`, 'success');
     }, 800);
   };
 
@@ -1123,7 +1123,7 @@ export function FigmaPlugin() {
         </h1>
         <p className="text-muted-foreground text-[15px] max-w-2xl leading-relaxed">
           Experience the Cosmos Figma Plugin in a fully interactive simulator. Browse tokens, sync changes,
-          run visual diffs, inspect components, and audit accessibility — just like you would inside Figma.
+          run visual diffs, inspect components, and audit accessibility, just like you would inside Figma.
         </p>
       </motion.div>
 

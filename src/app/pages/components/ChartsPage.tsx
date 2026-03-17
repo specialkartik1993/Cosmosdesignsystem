@@ -114,7 +114,8 @@ export function ChartsPage() {
   return (
     <ComponentPage title="Charts" description="Data visualization components for analytics dashboards. Interactive, animated, and theme-aware.">
       {/* KPI Cards */}
-      <Showcase title="KPI Metric Cards" description="Summary cards with sparkline trends and animated counters." delay={0.05} code={`// Metric cards with embedded sparkline SVGs
+      <Showcase title="KPI Metric Cards" description="Summary cards with sparkline trends and animated counters." delay={0.05} code={`import { Card, CardHeader, CardTitle, CardContent } from '@cosmos-ds/react';
+// Metric cards with embedded sparkline SVGs
 {metrics.map(m => (
   <div className="p-4 rounded-xl border bg-card">
     <p className="text-[12px] text-muted-foreground">{m.label}</p>
@@ -206,13 +207,13 @@ export function ChartsPage() {
 </BarChart>`}>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={weeklyData} barGap={4}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-            <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
-            <Tooltip contentStyle={tooltipStyle} />
-            <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
-            <Bar dataKey="users" fill="#6366f1" radius={[6, 6, 0, 0]} name="Users" />
-            <Bar dataKey="sessions" fill="#a855f7" radius={[6, 6, 0, 0]} name="Sessions" />
+            <CartesianGrid key="bar-grid" strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+            <XAxis key="bar-xaxis" dataKey="name" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
+            <YAxis key="bar-yaxis" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
+            <Tooltip key="bar-tooltip" contentStyle={tooltipStyle} />
+            <Legend key="bar-legend" iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
+            <Bar key="bar-users" dataKey="users" fill="#6366f1" radius={[6, 6, 0, 0]} name="Users" />
+            <Bar key="bar-sessions" dataKey="sessions" fill="#a855f7" radius={[6, 6, 0, 0]} name="Sessions" />
           </BarChart>
         </ResponsiveContainer>
       </Showcase>
@@ -224,14 +225,14 @@ export function ChartsPage() {
 </ComposedChart>`}>
         <ResponsiveContainer width="100%" height={300}>
           <ComposedChart data={weeklyData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-            <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
-            <YAxis yAxisId="left" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
-            <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} tickFormatter={v => `${v}%`} />
-            <Tooltip contentStyle={tooltipStyle} />
-            <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
-            <Bar yAxisId="left" dataKey="sessions" fill="#6366f1" radius={[6, 6, 0, 0]} name="Sessions" fillOpacity={0.8} />
-            <Line yAxisId="right" dataKey="bounceRate" stroke="#f43f5e" strokeWidth={2.5} dot={{ r: 4, fill: '#f43f5e', stroke: 'var(--card)', strokeWidth: 2 }} name="Bounce Rate %" type="monotone" />
+            <CartesianGrid key="combo-grid" strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+            <XAxis key="combo-xaxis" dataKey="name" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
+            <YAxis key="combo-yaxis-left" yAxisId="left" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} />
+            <YAxis key="combo-yaxis-right" yAxisId="right" orientation="right" tick={{ fontSize: 11 }} stroke="var(--muted-foreground)" axisLine={false} tickLine={false} tickFormatter={v => `${v}%`} />
+            <Tooltip key="combo-tooltip" contentStyle={tooltipStyle} />
+            <Legend key="combo-legend" iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
+            <Bar key="combo-bar" yAxisId="left" dataKey="sessions" fill="#6366f1" radius={[6, 6, 0, 0]} name="Sessions" fillOpacity={0.8} />
+            <Line key="combo-line" yAxisId="right" dataKey="bounceRate" stroke="#f43f5e" strokeWidth={2.5} dot={{ r: 4, fill: '#f43f5e', stroke: 'var(--card)', strokeWidth: 2 }} name="Bounce Rate %" type="monotone" />
           </ComposedChart>
         </ResponsiveContainer>
       </Showcase>
@@ -290,12 +291,12 @@ export function ChartsPage() {
             </div>
             <ResponsiveContainer width="100%" height={220}>
               <RadarChart data={radarData}>
-                <PolarGrid stroke="var(--border)" />
-                <PolarAngleAxis dataKey="subject" tick={{ fontSize: 10, fill: 'var(--muted-foreground)' }} />
-                <Radar name="Cosmos" dataKey="A" stroke="#6366f1" fill="#6366f1" fillOpacity={0.15} strokeWidth={2} />
-                <Radar name="Industry Avg" dataKey="B" stroke="#a855f7" fill="#a855f7" fillOpacity={0.08} strokeWidth={1.5} strokeDasharray="4 4" />
-                <Tooltip contentStyle={tooltipStyle} />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '11px' }} />
+                <PolarGrid key="radar-grid" stroke="var(--border)" />
+                <PolarAngleAxis key="radar-angle" dataKey="subject" tick={{ fontSize: 10, fill: 'var(--muted-foreground)' }} />
+                <Radar key="radar-cosmos" name="Cosmos" dataKey="A" stroke="#6366f1" fill="#6366f1" fillOpacity={0.15} strokeWidth={2} />
+                <Radar key="radar-industry" name="Industry Avg" dataKey="B" stroke="#a855f7" fill="#a855f7" fillOpacity={0.08} strokeWidth={1.5} strokeDasharray="4 4" />
+                <Tooltip key="radar-tooltip" contentStyle={tooltipStyle} />
+                <Legend key="radar-legend" iconType="circle" wrapperStyle={{ fontSize: '11px' }} />
               </RadarChart>
             </ResponsiveContainer>
           </div>

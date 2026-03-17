@@ -316,7 +316,7 @@ function PluginHero() {
               transition={{ delay: 0.35 }}
               className="text-[15px] text-muted-foreground leading-relaxed mb-6 max-w-xl"
             >
-              Now live on the Figma Community. The official Cosmos Design System plugin lets you sync design tokens bi-directionally, inspect component implementations side-by-side, run visual diffs, and automate your design-to-code handoff — all from within Figma.
+              Now live on the Figma Community. The official Cosmos Design System plugin lets you sync design tokens bi-directionally, inspect component implementations side-by-side, run visual diffs, and automate your design-to-code handoff, all from within Figma.
             </motion.p>
 
             {/* Stats */}
@@ -798,7 +798,7 @@ const scaffoldFiles = [
     name: 'manifest.json',
     icon: FileJson,
     lang: 'json',
-    desc: 'Plugin manifest — declares name, entry points, permissions, and Figma API version.',
+    desc: 'Plugin manifest. Declares name, entry points, permissions, and Figma API version.',
     code: `{
   "name": "Cosmos Design System",
   "id": "cosmos-design-system",
@@ -822,7 +822,7 @@ const scaffoldFiles = [
     name: 'code.ts',
     icon: FileCode,
     lang: 'typescript',
-    desc: 'Plugin backend — runs in Figma\'s sandbox. Reads variables, styles, and communicates with the UI.',
+    desc: 'Plugin backend. Runs in Figma\'s sandbox, reads variables and styles, and communicates with the UI.',
     code: `// code.ts — Figma plugin backend (sandbox)
 // This file runs in Figma's main thread and has access to the Figma API.
 
@@ -961,7 +961,7 @@ function rgbToHex({ r, g, b }: { r: number; g: number; b: number }) {
     name: 'ui.html',
     icon: FileText,
     lang: 'html',
-    desc: 'Plugin UI shell — loads the React app. Figma injects this into an iframe inside the plugin panel.',
+    desc: 'Plugin UI shell. Loads the React app. Figma injects this into an iframe inside the plugin panel.',
     code: `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1021,7 +1021,7 @@ function rgbToHex({ r, g, b }: { r: number; g: number; b: number }) {
 import React, { useEffect, useState, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 
-// ── Figma bridge hooks ───────────────────────────────────────────────
+// ── Figma bridge hooks ───────────��───────────────────────────────────
 
 function useFigmaMessage<T = any>(type: string) {
   const [data, setData] = useState<T | null>(null);
@@ -1205,7 +1205,7 @@ createRoot(document.getElementById("root")!).render(<App />);`,
   "name": "@cosmos-ds/figma-plugin",
   "version": "2.4.1",
   "private": true,
-  "description": "Cosmos Design System — Figma plugin for token sync & visual diff",
+  "description": "Cosmos Design System: Figma plugin for token sync & visual diff",
   "license": "MIT",
   "scripts": {
     "dev": "concurrently \\"esbuild src/code.ts --bundle --outfile=dist/code.js --watch\\" \\"esbuild src/plugin-ui.tsx --bundle --outfile=dist/plugin-ui.js --watch\\"",
@@ -1621,7 +1621,7 @@ function PluginCLI() {
             </div>
             <p className="text-[13px] text-muted-foreground leading-relaxed max-w-lg">
               Scaffold a complete Figma plugin project with the Cosmos CLI. Includes the sandbox backend,
-              React UI, build pipeline, and all config — ready to customize and publish.
+              React UI, build pipeline, and all config, ready to customize and publish.
             </p>
           </div>
           <div className="w-full md:w-auto flex-shrink-0">
@@ -1734,7 +1734,7 @@ function PluginCLI() {
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/70" />
               </div>
               <div className="flex-1 text-center">
-                <span className="text-[10px] text-white/30 font-mono">cosmos-plugin — zsh — 80\u00d724</span>
+                <span className="text-[10px] text-white/30 font-mono">cosmos-plugin : zsh : 80\u00d724</span>
               </div>
             </div>
 
@@ -1900,7 +1900,7 @@ export function FigmaIntegration() {
           icon={Monitor}
           label="Live Preview"
           title="Plugin Interface"
-          description="Explore the Cosmos plugin UI as it appears inside Figma. Browse tokens, sync changes, and run visual diffs — all within the plugin panel."
+          description="Explore the Cosmos plugin UI as it appears inside Figma. Browse tokens, sync changes, and run visual diffs, all within the plugin panel."
         />
         <PluginUIPreview />
       </section>
@@ -2131,7 +2131,7 @@ export function FigmaIntegration() {
           icon={Code2}
           label="Source Code"
           title="Plugin Scaffolding"
-          description="The complete Figma plugin source files — ready to clone, customize, and publish. Download individual files or grab everything at once."
+          description="The complete Figma plugin source files, ready to clone, customize, and publish. Download individual files or grab everything at once."
         />
         <PluginScaffolding />
       </section>
@@ -2193,10 +2193,10 @@ export function FigmaIntegration() {
                 <div className="space-y-2 mb-5">
                   {[
                     'Plugin bundle compiled and optimized (42KB gzipped)',
-                    'Tested locally in Figma — all 6 tabs verified',
+                    'Tested locally in Figma, all 6 tabs verified',
                     'Community assets prepared (icon, cover image, description)',
                     'Submitted and approved by Figma review team',
-                    'Post-publish verification complete — live and operational',
+                    'Post-publish verification complete, live and operational',
                   ].map((item, i) => (
                     <motion.div
                       key={i}
@@ -2282,7 +2282,7 @@ export function FigmaIntegration() {
           icon={Star}
           label="Live"
           title="Figma Community Listing"
-          description="The Cosmos plugin as it appears on the Figma Community store — available for anyone to install."
+          description="The Cosmos plugin as it appears on the Figma Community store, available for anyone to install."
         />
         <CommunityListingPreview />
       </section>
@@ -2309,7 +2309,7 @@ export function FigmaIntegration() {
               <div className="w-3 h-3 rounded-full bg-emerald-400/80" />
             </div>
             <div className="flex-1 mx-4 text-[12px] text-muted-foreground text-center" style={{ fontWeight: 500 }}>
-              Cosmos Design System — Figma Library
+              Cosmos Design System: Figma Library
             </div>
           </div>
 
@@ -2338,7 +2338,7 @@ export function FigmaIntegration() {
 
               <div className="sm:col-span-2 rounded-xl border border-border bg-background p-4">
                 <div className="text-[11px] text-muted-foreground uppercase tracking-wider mb-3" style={{ fontWeight: 600 }}>
-                  Atoms — Components
+                  Atoms / Components
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   {['Button', 'Input', 'Badge', 'Avatar', 'Toggle', 'Checkbox', 'Tooltip', 'Slider', 'Progress'].map((name) => (
@@ -2390,7 +2390,7 @@ export function FigmaIntegration() {
             },
             {
               q: 'Is there a cost for the Figma plugin?',
-              a: 'The plugin is free and open source under the MIT license, same as the rest of Cosmos. Enterprise features like SSO-gated publishing require a separate license.',
+              a: 'The plugin is free and open source, same as the rest of Cosmos. Enterprise features like SSO-gated publishing require a separate license.',
             },
             {
               q: 'Where can I install the plugin?',

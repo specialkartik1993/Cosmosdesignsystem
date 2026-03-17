@@ -69,6 +69,7 @@ const componentAIMetaOverrides: Record<string, Partial<AIMetadata>> = {
   status:    {},
   'search-bar': { structuredOutput: false },
   notification: {},
+  'drawer': {},
   // Organisms
   table:     {},
   navigation:{ structuredOutput: false },
@@ -129,7 +130,7 @@ export function ComponentPage({ title, description, children, badge, aiMeta }: C
 
   // Determine atomic category
   const atomsComponents = ['button', 'input', 'badge', 'avatar', 'toggle', 'checkbox', 'tooltip', 'skeleton', 'separator', 'slider', 'progress', 'tag'];
-  const moleculesComponents = ['card', 'alert', 'tabs', 'dropdown', 'select', 'dialog', 'popover', 'breadcrumb', 'pagination', 'accordion', 'error-states', 'timeline', 'status', 'search-bar', 'notification'];
+  const moleculesComponents = ['card', 'alert', 'tabs', 'dropdown', 'select', 'dialog', 'popover', 'breadcrumb', 'pagination', 'accordion', 'error-states', 'timeline', 'status', 'search-bar', 'notification', 'drawer'];
   const organismsComponents = ['table', 'navigation', 'form', 'charts', 'calendar'];
   const enterpriseComponents = ['data-grid', 'file-upload', 'rich-text-editor', 'date-range-picker'];
   const interactionComponents = ['interactive-cards', 'scroll-triggered', 'parallax', 'reveal-effects'];

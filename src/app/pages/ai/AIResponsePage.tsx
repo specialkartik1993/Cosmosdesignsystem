@@ -385,22 +385,38 @@ export function AIResponsePage() {
     >
       <Showcase
         title="Response Card"
-        description="Full AI response with code blocks, key points, expandable details, citations, and feedback — the cornerstone of any AI interface."
+        description="Full AI response with code blocks, key points, expandable details, citations, and feedback. The cornerstone of any AI interface."
         delay={0.1}
-        code={`<AIResponse
-  model="gpt-4o"
-  content={response}
-  citations={sources}
-  showFeedback={true}
-  showCitations={true}
-/>`}
+        code={`import {
+  AIResponse, AIResponseCodeBlock, AIResponseSources,
+  AISkeletonLoader,
+} from '@cosmos-ds/react';
+
+<AIResponse
+  content="Here's how to implement..."
+  codeBlocks={[{ language: 'tsx', code: 'const x = 1;', filename: 'example.tsx' }]}
+  sources={[{ title: 'React Docs', url: 'https://react.dev', snippet: '...' }]}
+  model="GPT-4o"
+  generationTime={1200}
+  tokens={450}
+  showFeedback
+  onFeedback={(f) => console.log(f)}
+  onRegenerate={() => {}}
+  avatar={<CosmicAIIcon />}
+/>
+
+// Standalone code block
+<AIResponseCodeBlock language="tsx" code={code} filename="App.tsx" />
+
+// Loading skeleton
+<AISkeletonLoader />`}
       >
         <AIResponseCard />
       </Showcase>
 
       <Showcase
         title="Skeleton Loader"
-        description="Shimmer-animated loading placeholder that matches the shape of an AI response — including text lines and code blocks."
+        description="Shimmer-animated loading placeholder that matches the shape of an AI response, including text lines and code blocks."
         delay={0.2}
         code={`<AIResponseSkeleton
   showCodeBlock={true}
@@ -412,7 +428,7 @@ export function AIResponsePage() {
 
       <Showcase
         title="Confidence Indicator"
-        description="Visual confidence levels with progress bars, icons, and descriptions — helping users understand AI certainty."
+        description="Visual confidence levels with progress bars, icons, and descriptions. Helps users understand AI certainty."
         delay={0.3}
         code={`<ConfidenceIndicator
   level={0.95}
@@ -425,7 +441,7 @@ export function AIResponsePage() {
 
       <Showcase
         title="Follow-up Suggestions"
-        description="Contextual follow-up prompts that guide the conversation — encouraging deeper exploration."
+        description="Contextual follow-up prompts that guide the conversation and encourage deeper exploration."
         delay={0.4}
         code={`<FollowUpSuggestions
   suggestions={contextualSuggestions}
